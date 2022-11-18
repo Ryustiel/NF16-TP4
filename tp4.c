@@ -22,3 +22,14 @@ void afficher_fiche(Parbre* abr, char* nm) {
         consult = consult->suivant;
     }
 }
+
+void afficher_patients(Parbre* abr) {
+    if (abr == NULL) {
+        printf("-");
+    } else {
+        printf("(%s ", abr->nom);
+        afficher_patients(abr->fils_gauche);
+        afficher_patients(abr->fils_droit);
+        printf(") ")
+    }
+}
