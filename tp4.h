@@ -10,6 +10,4 @@
 
 
 
-struct Patient {
-    
-}
+struct Patient {}
