@@ -17,3 +17,5 @@
     Il y a un cas particulier avec les ABR que tout le monde oublie, enfin presque tout le monde. 
     Avec ça comme structure, je dois insérer les données dans un certain ordre, pas juste comme ça.
 
+    Comparer des char* : strcmp
+    Liste des consultations : pas grave si c'est pas trié
