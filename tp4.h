@@ -15,6 +15,7 @@ struct Consultation {
 
 
 
+
 struct Patient {
 
 }
