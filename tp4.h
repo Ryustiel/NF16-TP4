@@ -1,14 +1,10 @@
-struct Consultation {
+typedef struct Consultation {
     char* date;
     char* motif;
-    niveauUrg
-}
+    int niveauUrg;
+    struct Consultation*;
+} Consultation;
 
-
-
-
-
-//test si c'est toujours la c'est bon
 
 
 
@@ -21,3 +17,6 @@ typedef struct Patient {
     struct Patient* fils_gauche;
     struct Patient* fils_droit;
 } patient;
+
+
+typedef Patient* Parbre;
