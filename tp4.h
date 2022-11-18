@@ -2,7 +2,7 @@ typedef struct Consultation {
     char* date;
     char* motif;
     int niveauUrg;
-    struct Consultation*;
+    struct Consultation* suivant;
 } Consultation;
 
 
