@@ -8,14 +8,14 @@ typedef struct Consultation {
 
 
 
-typedef struct Patient {
+typedef struct Patient { 
     char* nom;
     char* prenom;
     struct Consultation* ListeConsult;
     int nbrconsult; 
     struct Patient* fils_gauche;
     struct Patient* fils_droit;
-} patient;
+} Patient;
 
 
 typedef Patient* Parbre;
