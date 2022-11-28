@@ -6,8 +6,6 @@ typedef struct Consultation {
 } Consultation;
 
 
-
-
 typedef struct Patient { 
     char* nom;
     char* prenom;

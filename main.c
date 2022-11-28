@@ -4,7 +4,7 @@ int main(){
     
     // creation de quelques patients
     
-
+    // on test la detection de memory leaks
 
 
 
