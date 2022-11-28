@@ -24,6 +24,7 @@ Patient* rechercher_patient(Parbre* abr, char* nm);
 void afficher_fiche(Parbre* abr, char* nm);
 void afficher_patients(Parbre* abr);
 Consultation* CreerConsult(char* date, char* motif, int nivu);
+int consultcmp(Consultation* relative, Consultation* nouvelle);
 void ajouter_consultation(Parbre* abr, char* nm, char* date, char* motif, int nivu);
 void supprimer_patient(Parbre* abr, char* nm);
 void maj(Parbre* abr, Parbre* abr2);

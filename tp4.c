@@ -201,25 +201,29 @@ void afficher_patients(Parbre* abr) {
 void supprimer_patient(Parbre* abr, char* nm) {
     int comparison;
     Patient* ptr = abr;
+    Patient* ptr_prec;
     while (ptr != NULL) {
-        comparison = strcmp(ptr->nom, nm);
-        if (comparison < 0) {
-            ptr = ptr->fils_droit;
-        }
-        else if (comparison > 0) {
-            ptr = ptr->fils_gauche;
-        }
-        else {
-            Consultation* ptrc = ptr->ListeConsult;
-            Consultation* temp;
-            while (ptrc != NULL) {
-                temp = ptrc;
-                ptrc = ptrc->suivant;
-                free(temp);
-            }
-            // SUPPRESSION D'ARBRE (super galere)
-            free(ptr); // TESTER SI IL FAUT FREE CHAQUE COMPOSANT DU STRUCT
-        }
+      ptr_prec = ptr;
+      comparison = strcmp(ptr->nom, nm);
+      if (comparison < 0) {
+          ptr = ptr->fils_droit;
+      }
+      else if (comparison > 0) {
+          ptr = ptr->fils_gauche;
+      }
+      else {
+          Consultation* ptrc = ptr->ListeConsult;
+          Consultation* temp;
+          while (ptrc != NULL) {
+              temp = ptrc;
+              ptrc = ptrc->suivant;
+              free(temp);
+          }
+          // SUPPRESSION D'ARBRE (super galere)
+          
+          
+          free(ptr); // TESTER SI IL FAUT FREE CHAQUE COMPOSANT DU STRUCT ARBRE
+      }
     }
 }
 
