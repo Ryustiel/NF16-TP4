@@ -2,8 +2,8 @@
 #include<stdio.h>
 #include<tp4.h>
 
-Patient* creerPatient(char* nm, char* pr) {
-    // creation d'objet 
+Patient* CreerPatient(char* nm, char* pr) {
+    // creation d'objet
     Patient* p = malloc(sizeof(Patient));
 
     // initialization des attributs
@@ -17,8 +17,8 @@ Patient* creerPatient(char* nm, char* pr) {
     return p;
 }
 
-Consultation* creerConsult(char* date, char* motif, int nivu) {
-    // creation d'objet 
+Consultation* CreerConsult(char* date, char* motif, int nivu) {
+    // creation d'objet
     Consultation* c = malloc(sizeof(Patient));
 
     // initialization des attributs
@@ -45,10 +45,10 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
     // arbre vide : insertion en tete
     if (*abr == NULL) { // patient as root node
         *abr = CreerPatient(nm, pr);
-    } 
+    }
 
     else {
-        
+
         Patient* ptr = *abr;
         Patient* ptr_prec;
         int comparison;
@@ -129,7 +129,7 @@ void ajouter_consultation(Parbre* abr, char* nm, char* date, char* motif, int ni
             p->ListeConsult = CreerConsult(date, motif, nivu);
         }
 
-        else { // recherche de la premiere date superieure ou egale (ptr) et 
+        else { // recherche de la premiere date superieure ou egale (ptr) et
 
             Consultation* ptr = p->ListeConsult;
             Consultation* ptr_prec;
@@ -149,7 +149,7 @@ void ajouter_consultation(Parbre* abr, char* nm, char* date, char* motif, int ni
                 ptr_prec = ptr;
 
                 ptr = ptr->suivant;
-                if (position_avant) { 
+                if (position_avant) {
                     break; // le ptr a une date superieure ou egale a la nouvelle : proceder a l'insertion sur le precedent
                 }
                 // sinon continuer (jusqu'a ptr suivant >= ou ptr = NULL (cas de l'insertion en fin de chaine)
@@ -223,7 +223,7 @@ void supprimer_patient(Parbre* abr, char* nm) {
     int comparison;
     Patient* ptr = abr;
     Patient* ptr_prec;
-    
+
     while (ptr != NULL) { // recherche le patient dans l'arbre
       ptr_prec = ptr;
       comparison = strcmp(ptr->nom, nm);
@@ -281,7 +281,7 @@ void supprimer_patient(Parbre* abr, char* nm) {
 
             ptr = succ; // ptr pointe toujours vers le noeud a detruire en fin de boucle
         }
-          
+
         // TESTER SI IL FAUT FREE CHAQUE COMPOSANT DU STRUCT ARBRE
         // suppression des attributs pointes (ptr->->)
         free_patient(ptr);
@@ -294,7 +294,7 @@ void free_all_patients(Patient* p) {
         free_all_patients(p->fils_gauche);
         free_all_patients(p->fils_droit);
         free_patient(p);
-    } 
+    }
 }
 
 void maj(Parbre* abr, Parbre* abr2) {
@@ -315,19 +315,10 @@ void maj(Parbre* abr, Parbre* abr2) {
                 *abr2->prenom = *abr->prenom;
             }
             *abr2->ListeConsult = *abr->ListeConsult; // COPIER LA LISTE DES CONSULTATIONS
-            *abr2->nbconsult = *abr->nbconsult;
+            *abr2->nbconsult = *abr->nbconsult; //CHECKER TOUTES LES CONSULTATIONS MEME SI LE NOM DU PATIENT EST BON
             // les adresses des sous arbres ne changent pas
         }
-        // regarder si il existe des sous arbres a gauche et a droite de abr, les creer en avance pour abr2 si ils n'existent pas. Les valeurs seront mises a jour dans l'appel recursif juste apres
-        if (*abr2->fils_gauche == NULL && *abr->fils_gauche != NULL) {
-            *abr2->fils_gauche = creerPatient(nom=NULL, prenom=NULL);
-        }
-        if (*abr2->fils_droit == NULL && *abr->fils_droit != NULL) {
-            *abr2->fils_droit = creerPatient(nom=NULL, prenom=NULL);
-        }
-        &((*abr)->fils_gauche)
-        Patient* gauche = *abr->fils_gauche; // SEMI ABANDON DE L'IDEE A CAUSE DU TYPE
-        Patient* gauche2 = *abr2->fils_gauche;
-        Parbre a = gauche;
+        maj(&((*abr)->fils_droit), &((*abr2)->fils_droit));
+        maj(&((*abr)->fils_gauche), &((*abr2)->fils_gauche));
     }
 }
