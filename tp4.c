@@ -81,6 +81,7 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
         else if (last_fils == 2) { // insertion a droite
             ptr_prec->fils_droit = CreerPatient(nm, pr);
         }
+
     }
 }
 
@@ -194,7 +195,7 @@ void afficher_fiche(Parbre* abr, char* nm) {
 
 
 void afficher_patients(Parbre* abr) {
-    if (abr == NULL) {
+    if (*abr == NULL) {
         printf("-");
     } else {
         printf("(%s ", (*abr)->nom);

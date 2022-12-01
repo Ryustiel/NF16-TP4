@@ -9,7 +9,6 @@ void main(){
     // creation de quelques patients
 
     Parbre liste_patients = NULL;
-
     printf("bap");
 
     char* prenoms[5] = {"maggie", "ben", "charley", "iggy", "jeb"};
@@ -23,11 +22,11 @@ void main(){
         inserer_patient(&liste_patients, noms[i], prenoms[i]);
     }
 
-    /*Parbre copie = NULL;
     printf("hi");
     afficher_patients(&liste_patients);
     printf("yo");
-    maj(&liste_patients, &copie);*/
+    Parbre copie = NULL;
+    //maj(&liste_patients, &copie);
 
 
 
