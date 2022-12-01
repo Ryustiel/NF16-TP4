@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "tp4.c"
+#include "tp4.h"
 
 void main(){
 
@@ -10,17 +10,17 @@ void main(){
 
     Parbre liste_patients = NULL;
 
-    char* prenoms[5] = {"maggie", "ben", "charley", "iggy", "jeb"};
-    char* noms[5] = {"JOW", "SITTHIE", "BJORN", "AZAZE", "GEG"};
+    char* noms[15] = {"h", "d", "b", "a", "c", "f", "e", "g", "l", "n", "o", "m", "j", "k", "i"};
 
-    for (int i=0; i<5; i++) {
-        inserer_patient(&liste_patients, noms[i], prenoms[i]);
+    printf("yo");
+    for (int i=0; i<15; i++) {
+        inserer_patient(&liste_patients, noms[i], "Luc");
     }
 
-    afficher_patients(&liste_patients);
-    Parbre copie = NULL;
-    maj(&liste_patients, &copie);
-    afficher_patients(&copie);
+    //afficher_patients(&liste_patients);
+    //Parbre copie = NULL;
+    //maj(&liste_patients, &copie);
+    //afficher_patients(&copie);
 
 
 
