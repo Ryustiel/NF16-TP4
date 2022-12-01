@@ -1,6 +1,7 @@
-
 #include<stdio.h>
-#include<tp4.h>
+#include<stdlib.h>
+#include<string.h>
+#include"tp4.h"
 
 Patient* CreerPatient(char* nm, char* pr) {
     // creation d'objet
@@ -75,13 +76,13 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
             if (last_fils == 1) { // insertion a gauche
                 ptr_prec->fils_gauche = CreerPatient(nm, pr);
             }
-            elif (last_fils == 2) { // insertion a droite
+            else if (last_fils == 2) { // insertion a droite
                 ptr_prec->fils_droit = CreerPatient(nm, pr);
             }
-            } // else last_fils == 0 (node correspondante existe deja)
-        }
+        } // else last_fils == 0 (node correspondante existe deja)
     }
 }
+
 
 /*
 // DEFINIR DATECMPR (lettre par lettre) 78-56-1234 (0 1 - 3 4 - 6 7 8 9)
@@ -123,7 +124,7 @@ void ajouter_consultation(Parbre* abr, char* nm, char* date, char* motif, int ni
 
     if (p != NULL) { // valeur par defaut de rechercher_patient, cas patient non trouve
 
-        p->nbconsult += 1;
+        p->nbrconsult += 1;
 
         if (p->ListeConsult == NULL) { // patient as root node
             p->ListeConsult = CreerConsult(date, motif, nivu);
@@ -190,18 +191,18 @@ void afficher_fiche(Parbre* abr, char* nm) {
     }
 }
 
-/*
+
 void afficher_patients(Parbre* abr) {
     if (abr == NULL) {
         printf("-");
     } else {
-        printf("(%s ", abr->nom);
-        afficher_patients(abr->fils_gauche);
-        afficher_patients(abr->fils_droit);
-        printf(") ")
+        printf("(%s ", (*abr)->nom);
+        afficher_patients(&((*abr)->fils_gauche));
+        afficher_patients(&((*abr)->fils_droit));
+        printf(") ");
     }
 }
-*/
+
 
 void free_patient(Patient* p) {
     free(p->nom);
@@ -221,7 +222,7 @@ void free_patient(Patient* p) {
 
 void supprimer_patient(Parbre* abr, char* nm) {
     int comparison;
-    Patient* ptr = abr;
+    Patient* ptr = *abr;
     Patient* ptr_prec;
 
     while (ptr != NULL) { // recherche le patient dans l'arbre
@@ -277,7 +278,7 @@ void supprimer_patient(Parbre* abr, char* nm) {
             ptr->nom = succ->nom;
             ptr->prenom = succ->prenom;
             ptr->ListeConsult = succ->ListeConsult;
-            ptr->nbconsult = succ->nbconsult;
+            ptr->nbrconsult = succ->nbrconsult;
 
             ptr = succ; // ptr pointe toujours vers le noeud a detruire en fin de boucle
         }
@@ -302,20 +303,20 @@ void maj(Parbre* abr, Parbre* abr2) {
 
 
     if (*abr == NULL) {
-        free_all_patients(*abr2) { // supprime le noeud superflu dans abr2
+        free_all_patients(*abr2); // supprime le noeud superflu dans abr2
         *abr2 = NULL; // ce pointeur sur patient est desormais NULL
     }
     else {
-        if (*abr2 == NULL || *abr2->nom != *abr->nom) { // on suppose que les noms sont uniques
+        if (*abr2 == NULL || (*abr2)->nom != (*abr)->nom) { // on suppose que les noms sont uniques
             if (*abr2 == NULL) {
-                *abr2 = creerPatient(nm = *abr->nom, pr = *abr->prenom);
+                *abr2 = CreerPatient((*abr)->nom, (*abr)->prenom);
             }
             else {
-                *abr2->nom = *abr->nom;
-                *abr2->prenom = *abr->prenom;
+                (*abr2)->nom = (*abr)->nom;
+                (*abr2)->prenom = (*abr)->prenom;
             }
-            *abr2->ListeConsult = *abr->ListeConsult; // COPIER LA LISTE DES CONSULTATIONS
-            *abr2->nbconsult = *abr->nbconsult; //CHECKER TOUTES LES CONSULTATIONS MEME SI LE NOM DU PATIENT EST BON
+            (*abr2)->ListeConsult = (*abr)->ListeConsult; // COPIER LA LISTE DES CONSULTATIONS
+            (*abr2)->nbrconsult = (*abr)->nbrconsult; //CHECKER TOUTES LES CONSULTATIONS MEME SI LE NOM DU PATIENT EST BON
             // les adresses des sous arbres ne changent pas
         }
         maj(&((*abr)->fils_droit), &((*abr2)->fils_droit));
