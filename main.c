@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "tp4.h"
+#include "tp4.c"
 
 void main(){
 
@@ -16,6 +16,9 @@ void main(){
     char* noms[5] = {"JOW", "SITTHIE", "BJORN", "AZAZE", "GEG"};
 
     printf("bip");
+
+    inserer_patient(&liste_patients, "blah", "blooh");
+
     for (int i=0; i<5; i++) {
         inserer_patient(&liste_patients, noms[i], prenoms[i]);
     }

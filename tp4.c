@@ -36,7 +36,7 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
 
     // normalisation des caracteres du nom (defini uniquement majuscule)
     int i = 0;
-    while (nm[i] != '\n') {
+    while (nm[i] != '\0') {
         if (nm[i] >= 'a') {
             nm[i] = nm[i] - ('a' - 'A'); // minuscule to majuscule
         }
@@ -56,7 +56,7 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
         char last_fils; // sert a indiquer l'etat de terminaison du while -- apparemment les char prennent moins de place en memoire
 
         while (ptr != NULL) { // en fin de boucle ptr vaut soit un sous arbre de ptr_prec (distingue par last_fils) soit ne change pas
-            comparison = strcmp(ptr->nom, nm);
+            comparison = strcmp(nm, ptr->nom);
             ptr_prec = ptr;
 
             if (comparison < 0) { // node->nom < nm
@@ -72,14 +72,15 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
                 break; // node already exists
             }
 
-            // comportement suivant la derniere action du while
-            if (last_fils == 1) { // insertion a gauche
-                ptr_prec->fils_gauche = CreerPatient(nm, pr);
-            }
-            else if (last_fils == 2) { // insertion a droite
-                ptr_prec->fils_droit = CreerPatient(nm, pr);
-            }
         } // else last_fils == 0 (node correspondante existe deja)
+
+        // comportement suivant la derniere action du while
+        if (last_fils == 1) { // insertion a gauche
+            ptr_prec->fils_gauche = CreerPatient(nm, pr);
+        }
+        else if (last_fils == 2) { // insertion a droite
+            ptr_prec->fils_droit = CreerPatient(nm, pr);
+        }
     }
 }
 
