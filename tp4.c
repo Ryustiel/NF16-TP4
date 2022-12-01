@@ -71,7 +71,9 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
                 last_fils = 0;
                 break; // node already exists
             }
-        }
+
+        } // else last_fils == 0 (node correspondante existe deja)
+
         // comportement suivant la derniere action du while
         if (last_fils == 1) { // insertion a gauche
             ptr_prec->fils_gauche = CreerPatient(nm, pr);
@@ -79,7 +81,7 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
         else if (last_fils == 2) { // insertion a droite
             ptr_prec->fils_droit = CreerPatient(nm, pr);
         }
-        // else last_fils == 0 (node correspondante existe deja)
+
     }
 }
 
