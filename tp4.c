@@ -42,8 +42,8 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
         i++;
     }
 
-    // arbre vide : insertion i top
-    if (abr == NULL) { // patient as root node
+    // arbre vide : insertion en tete
+    if (*abr == NULL) { // patient as root node
         *abr = CreerPatient(nm, pr);
     } 
 
@@ -54,7 +54,7 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
         int comparison;
         char last_fils; // sert a indiquer l'etat de terminaison du while -- apparemment les char prennent moins de place en memoire
 
-        while (ptr != NULL) { // en fin de boucle ptr vaut soit un sous arbre de ptr_prec (disctingue par last_fils) soit ne change pas
+        while (ptr != NULL) { // en fin de boucle ptr vaut soit un sous arbre de ptr_prec (distingue par last_fils) soit ne change pas
             comparison = strcmp(ptr->nom, nm);
             ptr_prec = ptr;
 
@@ -71,13 +71,13 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
                 break; // node already exists
             }
 
-            if (last_fils > 0) { // comportement suivant la derniere action du while
-                if (last_fils == 1) { // (gauche)
-                    ptr_prec->fils_gauche = CreerPatient(nm, pr);
-                }
-                else { // last_fils == 2 (droite)
-                    ptr_prec->fils_droit = CreerPatient(nm, pr);
-                }
+            // comportement suivant la derniere action du while
+            if (last_fils == 1) { // insertion a gauche
+                ptr_prec->fils_gauche = CreerPatient(nm, pr);
+            }
+            elif (last_fils == 2) { // insertion a droite
+                ptr_prec->fils_droit = CreerPatient(nm, pr);
+            }
             } // else last_fils == 0 (node correspondante existe deja)
         }
     }
@@ -90,7 +90,7 @@ int consultcmp(char* date) { // returns an unique int proportional to the date f
 }
 */
 
-int consultcmp(Consultation* relative, Consultation* nouvelle) { // compare les caracteristiques de nouvelle et relative, et renvoie 1 si la nouvelle consultation devrait etre placee avant la relative, 0 sinon
+int consultcmp(Consultation* relative, Consultation* nouvelle) { // compare les caracteristiques de nouvelle et relative consultation, et renvoie 1 si la nouvelle consultation devrait etre placee avant la relative (c'est a dire date inferieure, niveau d'urgence inferieur si date egale), 0 sinon
 
     // comparaison de date
     int indices[8] = {6, 7, 8, 9, 3, 4, 0, 1}; // composants de la date par ordre d'importance : JJ-MM-AAAA, 78-56-1234 (0 1 - 3 4 - 6 7 8 9)
@@ -121,39 +121,44 @@ int consultcmp(Consultation* relative, Consultation* nouvelle) { // compare les 
 void ajouter_consultation(Parbre* abr, char* nm, char* date, char* motif, int nivu) {
     Patient* p = rechercher_patient(abr, nm);
 
-    if (p->ListeConsult == NULL) { // patient as root node
-        p->ListeConsult = CreerConsult(date, motif, nivu);
-    }
+    if (p != NULL) { // valeur par defaut de rechercher_patient, cas patient non trouve
 
-    else { // recherche de la premiere date superieure ou egale (ptr) et 
+        p->nbconsult += 1;
 
-        Consultation* ptr = p->ListeConsult;
-        Consultation* ptr_prec;
-        Consultation* nouvelle = CreerConsult(date, motif, nivu);
-        int position_avant = consultcmp(p->ListeConsult, nouvelle); // position relative de la nouvelle consultation par rapport a celle passee en premier argument
-
-        if (position_avant) { // checking the root node (might require updating Patient)
-            // inserer en tant que tete de liste
-            p->ListeConsult = nouvelle;
-            p->ListeConsult->suivant = ptr;
+        if (p->ListeConsult == NULL) { // patient as root node
+            p->ListeConsult = CreerConsult(date, motif, nivu);
         }
 
-        else {
+        else { // recherche de la premiere date superieure ou egale (ptr) et 
 
-            while (ptr != NULL) { // en fin de boucle ptr vaut soit un sous arbre de ptr_prec (disctingue par last_fils) soit ne change pas
-            position_avant = consultcmp(ptr, nouvelle);
-            ptr_prec = ptr;
+            Consultation* ptr = p->ListeConsult;
+            Consultation* ptr_prec;
+            Consultation* nouvelle = CreerConsult(date, motif, nivu);
+            int position_avant = consultcmp(p->ListeConsult, nouvelle); // position relative de la nouvelle consultation par rapport a celle passee en premier argument
 
-            ptr = ptr->suivant;
-            if (position_avant) { 
-                break; // le ptr a une date superieure ou egale a la nouvelle : proceder a l'insertion sur le precedent
+            if (position_avant) { // checking the root node
+                // inserer en tant que tete de liste
+                p->ListeConsult = nouvelle;
+                p->ListeConsult->suivant = ptr;
             }
-            // sinon continuer (jusqu'a ptr suivant >= ou ptr = NULL (cas de l'insertion en fin de chaine)
-        }
 
-        ptr_prec->suivant = nouvelle;
-        ptr_prec->suivant->suivant = ptr; // chainage simple, pas besoin de definir un precedent
+            else {
 
+                while (ptr != NULL) { // en fin de boucle ptr vaut soit un sous arbre de ptr_prec (disctingue par last_fils) soit ne change pas
+                position_avant = consultcmp(ptr, nouvelle);
+                ptr_prec = ptr;
+
+                ptr = ptr->suivant;
+                if (position_avant) { 
+                    break; // le ptr a une date superieure ou egale a la nouvelle : proceder a l'insertion sur le precedent
+                }
+                // sinon continuer (jusqu'a ptr suivant >= ou ptr = NULL (cas de l'insertion en fin de chaine)
+            }
+
+            ptr_prec->suivant = nouvelle;
+            ptr_prec->suivant->suivant = ptr; // chainage simple, pas besoin de definir un precedent
+
+            }
         }
     }
 }
@@ -198,36 +203,131 @@ void afficher_patients(Parbre* abr) {
 }
 */
 
+void free_patient(Patient* p) {
+    free(p->nom);
+    free(p->prenom);
+
+    // suppression de l'attribut ListeConsult (liste chainee)
+    Consultation* ptrc = p->ListeConsult;
+    Consultation* temp;
+    while (ptrc != NULL) {
+        temp = ptrc;
+        ptrc = ptrc->suivant;
+        free(temp);
+    }
+
+    free(p);
+}
+
 void supprimer_patient(Parbre* abr, char* nm) {
     int comparison;
     Patient* ptr = abr;
     Patient* ptr_prec;
-    while (ptr != NULL) {
+    
+    while (ptr != NULL) { // recherche le patient dans l'arbre
       ptr_prec = ptr;
       comparison = strcmp(ptr->nom, nm);
       if (comparison < 0) {
-          ptr = ptr->fils_droit;
+        ptr = ptr->fils_droit;
       }
-      else if (comparison > 0) {
-          ptr = ptr->fils_gauche;
+      else if (comparison > 0) { // GERER CAS OU PATIENT EST LA ROOT NODE
+        ptr = ptr->fils_gauche;
       }
-      else {
-          Consultation* ptrc = ptr->ListeConsult;
-          Consultation* temp;
-          while (ptrc != NULL) {
-              temp = ptrc;
-              ptrc = ptrc->suivant;
-              free(temp);
-          }
-          // SUPPRESSION D'ARBRE (super galere)
+      else { // noeud patient trouve
+
+          // detachement du noeud patient (ptr->)
+        if (ptr->fils_droit == NULL) { // le noeud a detacher a au plus un fils gauche
+            if (ptr_prec == ptr) { // ptr est la racine de l'arbre
+                *abr = ptr->fils_gauche;
+            }
+            else if (ptr_prec->fils_droit == ptr) { // ptr est un fils droit
+                ptr_prec->fils_droit = ptr->fils_gauche;
+            }
+            else { // ptr est un fils gauche
+                ptr_prec->fils_gauche = ptr->fils_gauche;
+            }
+        }
+        else if (ptr->fils_gauche == NULL) { // le noeud a detacher a au plus un fils droit
+            if (ptr_prec == ptr) { // ptr est la racine de l'arbre
+                *abr = ptr->fils_droit;
+            }
+            else if (ptr_prec->fils_droit == ptr) {
+                ptr_prec->fils_droit = ptr->fils_droit;
+            }
+            else {
+                ptr_prec->fils_gauche = ptr->fils_droit;
+            }
+        }
+        else { // le noeud a detacher a 2 fils
+
+            // le noeud a forcement un successeur a droite
+            Patient* succ = ptr->fils_droit;
+            Patient* succ_prec = ptr;
+            while (succ->fils_gauche != NULL) { // le successeur est le minimum du sous arbre gauche (tous noeuds->nom > ptr->nom)
+                succ = succ->fils_gauche;
+            }
+
+            // detacher succ
+            // succ ne peut pas avoir de fils gauche (voir boucle precedente)
+            if (succ->fils_droit != NULL) {
+                succ_prec->fils_gauche = succ->fils_droit;
+            }
+
+            // copie des attributs de succ non lies a la structure d'arbre dans le noeud a detacher (ptr->)
+            ptr->nom = succ->nom;
+            ptr->prenom = succ->prenom;
+            ptr->ListeConsult = succ->ListeConsult;
+            ptr->nbconsult = succ->nbconsult;
+
+            ptr = succ; // ptr pointe toujours vers le noeud a detruire en fin de boucle
+        }
           
-          
-          free(ptr); // TESTER SI IL FAUT FREE CHAQUE COMPOSANT DU STRUCT ARBRE
+        // TESTER SI IL FAUT FREE CHAQUE COMPOSANT DU STRUCT ARBRE
+        // suppression des attributs pointes (ptr->->)
+        free_patient(ptr);
       }
     }
 }
 
-void maj(Parbre* abr, Parbre* abr2) {
-    // 
+void free_all_patients(Patient* p) {
+    if (p != NULL) {
+        free_all_patients(p->fils_gauche);
+        free_all_patients(p->fils_droit);
+        free_patient(p);
+    } 
+}
 
+void maj(Parbre* abr, Parbre* abr2) {
+    // le parcours le plus bete du monde : parcourir, modifier si different -- abr2 copie basiquement abr, c'est un ABR a la fin
+
+
+    if (*abr == NULL) {
+        free_all_patients(*abr2) { // supprime le noeud superflu dans abr2
+        *abr2 = NULL; // ce pointeur sur patient est desormais NULL
+    }
+    else {
+        if (*abr2 == NULL || *abr2->nom != *abr->nom) { // on suppose que les noms sont uniques
+            if (*abr2 == NULL) {
+                *abr2 = creerPatient(nm = *abr->nom, pr = *abr->prenom);
+            }
+            else {
+                *abr2->nom = *abr->nom;
+                *abr2->prenom = *abr->prenom;
+            }
+            *abr2->ListeConsult = *abr->ListeConsult; // COPIER LA LISTE DES CONSULTATIONS
+            *abr2->nbconsult = *abr->nbconsult;
+            // les adresses des sous arbres ne changent pas
+        }
+        // regarder si il existe des sous arbres a gauche et a droite de abr, les creer en avance pour abr2 si ils n'existent pas. Les valeurs seront mises a jour dans l'appel recursif juste apres
+        if (*abr2->fils_gauche == NULL && *abr->fils_gauche != NULL) {
+            *abr2->fils_gauche = creerPatient(nom=NULL, prenom=NULL);
+        }
+        if (*abr2->fils_droit == NULL && *abr->fils_droit != NULL) {
+            *abr2->fils_droit = creerPatient(nom=NULL, prenom=NULL);
+        }
+        &((*abr)->fils_gauche)
+        Patient* gauche = *abr->fils_gauche; // SEMI ABANDON DE L'IDEE A CAUSE DU TYPE
+        Patient* gauche2 = *abr2->fils_gauche;
+        Parbre a = gauche;
+    }
 }
