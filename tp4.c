@@ -56,7 +56,7 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
         char last_fils; // sert a indiquer l'etat de terminaison du while -- apparemment les char prennent moins de place en memoire
 
         while (ptr != NULL) { // en fin de boucle ptr vaut soit un sous arbre de ptr_prec (distingue par last_fils) soit ne change pas
-            comparison = strcmp(ptr->nom, nm);
+            comparison = strcmp(nm, ptr->nom);
             ptr_prec = ptr;
 
             if (comparison < 0) { // node->nom < nm
