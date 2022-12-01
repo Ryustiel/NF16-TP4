@@ -36,7 +36,7 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
 
     // normalisation des caracteres du nom (defini uniquement majuscule)
     int i = 0;
-    while (nm[i] != '\n') {
+    while (nm[i] != '\0') {
         if (nm[i] >= 'a') {
             nm[i] = nm[i] - ('a' - 'A'); // minuscule to majuscule
         }
@@ -71,15 +71,15 @@ void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), p
                 last_fils = 0;
                 break; // node already exists
             }
-
-            // comportement suivant la derniere action du while
-            if (last_fils == 1) { // insertion a gauche
-                ptr_prec->fils_gauche = CreerPatient(nm, pr);
-            }
-            else if (last_fils == 2) { // insertion a droite
-                ptr_prec->fils_droit = CreerPatient(nm, pr);
-            }
-        } // else last_fils == 0 (node correspondante existe deja)
+        }
+        // comportement suivant la derniere action du while
+        if (last_fils == 1) { // insertion a gauche
+            ptr_prec->fils_gauche = CreerPatient(nm, pr);
+        }
+        else if (last_fils == 2) { // insertion a droite
+            ptr_prec->fils_droit = CreerPatient(nm, pr);
+        }
+        // else last_fils == 0 (node correspondante existe deja)
     }
 }
 
@@ -193,7 +193,7 @@ void afficher_fiche(Parbre* abr, char* nm) {
 
 
 void afficher_patients(Parbre* abr) {
-    if (abr == NULL) {
+    if (*abr == NULL) {
         printf("-");
     } else {
         printf("(%s ", (*abr)->nom);
