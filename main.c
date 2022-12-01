@@ -4,11 +4,13 @@
 #include<string.h>
 #include "tp4.h"
 
-int main(){
+void main(){
 
     // creation de quelques patients
 
     Parbre liste_patients = NULL;
+
+    printf("bap");
 
     char* prenoms[5] = {"maggie", "ben", "charley", "iggy", "jeb"};
     char* noms[5] = {"JOW", "SITTHIE", "BJORN", "AZAZE", "GEG"};
@@ -18,11 +20,11 @@ int main(){
         inserer_patient(&liste_patients, noms[i], prenoms[i]);
     }
 
-    Parbre copie = NULL;
+    /*Parbre copie = NULL;
     printf("hi");
     afficher_patients(&liste_patients);
     printf("yo");
-    maj(&liste_patients, &copie);
+    maj(&liste_patients, &copie);*/
 
 
 
