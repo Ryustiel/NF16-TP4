@@ -1,3 +1,6 @@
+#ifndef TP3_H_INCLUDED
+#define TP3_H_INCLUDED
+
 typedef struct Consultation {
     char* date;
     char* motif;
@@ -6,7 +9,7 @@ typedef struct Consultation {
 } Consultation;
 
 
-typedef struct Patient { 
+typedef struct Patient {
     char* nom;
     char* prenom;
     struct Consultation* ListeConsult;
@@ -28,3 +31,5 @@ int consultcmp(Consultation* relative, Consultation* nouvelle);
 void ajouter_consultation(Parbre* abr, char* nm, char* date, char* motif, int nivu);
 void supprimer_patient(Parbre* abr, char* nm);
 void maj(Parbre* abr, Parbre* abr2);
+
+#endif // TP3_H_INCLUDED
