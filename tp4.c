@@ -229,22 +229,23 @@ void free_patient(Patient* p) {
 void supprimer_patient(Parbre* abr, char* nm) {
     int comparison;
     Patient* ptr = *abr;
-    Patient* ptr_prec;
+    Patient* ptr_prec = NULL;
 
     while (ptr != NULL) { // recherche le patient dans l'arbre
-      ptr_prec = ptr;
       comparison = strcmp(ptr->nom, nm);
       if (comparison < 0) {
+        ptr_prec = ptr;
         ptr = ptr->fils_droit;
       }
       else if (comparison > 0) { // GERER CAS OU PATIENT EST LA ROOT NODE
+        ptr_prec = ptr;
         ptr = ptr->fils_gauche;
       }
       else { // noeud patient trouve
 
           // detachement du noeud patient (ptr->)
         if (ptr->fils_droit == NULL) { // le noeud a detacher a au plus un fils gauche
-            if (ptr_prec == ptr) { // ptr est la racine de l'arbre
+            if (ptr_prec == NULL) { // ptr est la racine de l'arbre
                 *abr = ptr->fils_gauche;
             }
             else if (ptr_prec->fils_droit == ptr) { // ptr est un fils droit
@@ -255,7 +256,7 @@ void supprimer_patient(Parbre* abr, char* nm) {
             }
         }
         else if (ptr->fils_gauche == NULL) { // le noeud a detacher a au plus un fils droit
-            if (ptr_prec == ptr) { // ptr est la racine de l'arbre
+            if (ptr_prec == NULL) { // ptr est la racine de l'arbre
                 *abr = ptr->fils_droit;
             }
             else if (ptr_prec->fils_droit == ptr) {
@@ -271,12 +272,16 @@ void supprimer_patient(Parbre* abr, char* nm) {
             Patient* succ = ptr->fils_droit;
             Patient* succ_prec = ptr;
             while (succ->fils_gauche != NULL) { // le successeur est le minimum du sous arbre gauche (tous noeuds->nom > ptr->nom)
+                succ_prec = succ;
                 succ = succ->fils_gauche;
             }
 
             // detacher succ
             // succ ne peut pas avoir de fils gauche (voir boucle precedente)
-            if (succ->fils_droit != NULL) {
+            if (succ_prec == ptr) { // succ est un fils droit de ptr
+                succ_prec->fils_droit =  succ->fils_droit;
+            }
+            else { // succ est un fils gauche
                 succ_prec->fils_gauche = succ->fils_droit;
             }
 
@@ -289,10 +294,9 @@ void supprimer_patient(Parbre* abr, char* nm) {
             ptr = succ; // ptr pointe toujours vers le noeud a detruire en fin de boucle
         }
 
-        // TESTER SI IL FAUT FREE CHAQUE COMPOSANT DU STRUCT ARBRE
         // suppression des attributs pointes (ptr->->)
         free_patient(ptr);
-      }
+        }
     }
 }
 

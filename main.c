@@ -49,12 +49,12 @@ void test(){
 
     //Suppression
     supprimer_patient(&liste_patients, "C");
-    supprimer_patient(&liste_patients, "E");
+    /*supprimer_patient(&liste_patients, "E");
     supprimer_patient(&liste_patients, "B");
     supprimer_patient(&liste_patients, "F");
     supprimer_patient(&liste_patients, "J");
     supprimer_patient(&liste_patients, "L");
-    supprimer_patient(&liste_patients, "H");
+    supprimer_patient(&liste_patients, "H");*/
     afficher_patients(&liste_patients);
 }
 
