@@ -4,11 +4,6 @@
 #include<string.h>
 #include "tp4.h"
 
-void main(){
-    test();
-}
-
-//version test
 void test(){
     Parbre liste_patients = NULL;
     Parbre liste2 = NULL;
@@ -22,7 +17,7 @@ void test(){
     afficher_patients(&liste_patients);
 
     //Recherche, ajouter consultation et fiche
-    ajouter_consultation(&liste_patients, "F", "01/01/2000", "fievre", 0);
+    ajouter_consultation(&liste_patients, "F", "01/01/2004", "vomissement", 2);
     ajouter_consultation(&liste_patients, "K", "01/01/1999", "fievre", 0);
     ajouter_consultation(&liste_patients, "K", "01/01/2002", "douleur", 1);
     ajouter_consultation(&liste_patients, "K", "01/01/2001", "gastro", 2);
@@ -40,4 +35,8 @@ void test(){
     afficher_fiche(&liste_patients, "EA");
     afficher_fiche(&liste_patients, "Z");
     afficher_fiche(&liste2, "H");
+}
+
+void main(){
+    test();
 }

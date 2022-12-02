@@ -196,7 +196,7 @@ void afficher_fiche(Parbre* abr, char* nm) {
             consult = consult->suivant;
         }
     } else {
-        printf("Ce patient n'est pas enregistre.");
+        printf("Le patient %s n'est pas enregistre.\n", nm);
     }
 }
 
