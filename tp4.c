@@ -294,6 +294,7 @@ void supprimer_patient(Parbre* abr, char* nm) {
 
         // suppression des attributs pointes (ptr->->)
         free_patient(ptr);
+        break;
         }
     }
 }
