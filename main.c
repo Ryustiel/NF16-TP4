@@ -19,7 +19,7 @@ void test(){
 
     //Premier test de MAJ
     maj(&liste_patients, &liste3);
-    //afficher_patients(&liste3);
+    afficher_patients(&liste3);
 
 
 
@@ -80,9 +80,9 @@ void test(){
 
     //Deuxieme test de MAJ
     maj(&liste_patients, &liste3);
-    //afficher_patients(&liste3);
+    afficher_patients(&liste3);
 
-    //afficher_fiche(&liste3, "K");
+    afficher_fiche(&liste3, "K");
     ajouter_consultation(&liste_patients, "K", "01/01/2013", "accident", 3);
     maj(&liste_patients, &liste3);
     afficher_fiche(&liste3, "K");

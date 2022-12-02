@@ -353,6 +353,7 @@ void maj_consultations(Consultation* reference, Patient* patient_modifier) {
         }
         modifier_ptr_prec = modifier_ptr_prec->suivant;
         modifier_ptr = modifier_ptr_prec->suivant;
+        ref_ptr = ref_ptr->suivant;
     }
     while (modifier_ptr != NULL) { // ref_ptr est NULL donc la chaine a partir de cette addresse pour modifier devrait etre NULL aussi
         modifier_ptr_prec = modifier_ptr; // utilise modifier_ptr_prec comme variable temporaire pour free
@@ -380,15 +381,13 @@ void maj(Parbre* abr, Parbre* abr2) {
                 (*abr2)->prenom = (*abr)->prenom;
                 supprimer_consultations(*abr2); // suppression des consultations enregistrees pour eviter les conflits d'attributs (consultations aux memes dates, niveaux d'urgence pour deux patients differents pour des motifs differents)
             }
-
-
-
-            (*abr2)->ListeConsult = (*abr)->ListeConsult;
-            (*abr2)->nbrconsult = (*abr)->nbrconsult;
-
         }
-        maj(&((*abr)->fils_droit), &((*abr2)->fils_droit));
-        maj(&((*abr)->fils_gauche), &((*abr2)->fils_gauche));
+
+    (*abr2)->nbrconsult = (*abr)->nbrconsult;
+    maj_consultations((*abr)->ListeConsult, *abr2);
+
+    maj(&((*abr)->fils_droit), &((*abr2)->fils_droit));
+    maj(&((*abr)->fils_gauche), &((*abr2)->fils_gauche));
     }
 }
 
