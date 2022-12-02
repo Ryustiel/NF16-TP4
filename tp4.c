@@ -20,7 +20,7 @@ Patient* CreerPatient(char* nm, char* pr) {
 
 Consultation* CreerConsult(char* date, char* motif, int nivu) {
     // creation d'objet
-    Consultation* c = malloc(sizeof(Patient));
+    Consultation* c = malloc(sizeof(Consultation));
 
     // initialization des attributs
     c->date = date;
@@ -187,12 +187,16 @@ Patient* rechercher_patient(Parbre* abr, char* nm) {
 
 void afficher_fiche(Parbre* abr, char* nm) {
     Patient* p = rechercher_patient(abr, nm);
-    printf("Nom : %s\nPrenom%s\nNombre de consultations : %d\n", p->nom, p->prenom, p->nbrconsult);
+    if (p != NULL) {
+        printf("Nom : %s\nPrenom%s\nNombre de consultations : %d\n", p->nom, p->prenom, p->nbrconsult);
 
-    Consultation* consult = p->ListeConsult;
-    while (consult != NULL) {
-        printf("\nDate de la consultation : %s\nMotif : %s\nNiveau d'urgence : %d\n", consult->date, consult->motif, consult->niveauUrg);
-        consult = consult->suivant;
+        Consultation* consult = p->ListeConsult;
+        while (consult != NULL) {
+            printf("\nDate de la consultation : %s\nMotif : %s\nNiveau d'urgence : %d\n", consult->date, consult->motif, consult->niveauUrg);
+            consult = consult->suivant;
+        }
+    } else {
+        printf("Ce patient n'est pas enregistre.");
     }
 }
 
