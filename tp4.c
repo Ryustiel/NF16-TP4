@@ -18,6 +18,7 @@ Patient* CreerPatient(char* nm, char* pr) {
     return p;
 }
 
+
 Consultation* CreerConsult(char* date, char* motif, int nivu) {
     // creation d'objet
     Consultation* c = malloc(sizeof(Consultation));
@@ -30,6 +31,7 @@ Consultation* CreerConsult(char* date, char* motif, int nivu) {
 
     return c;
 }
+
 
 // CAP CONTROL (done, needs double checking)
 void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), pr (prenom//)
@@ -185,6 +187,7 @@ Patient* rechercher_patient(Parbre* abr, char* nm) {
     return NULL; //le patient n'a pas ete trouve
 }
 
+
 void afficher_fiche(Parbre* abr, char* nm) {
     Patient* p = rechercher_patient(abr, nm);
     if (p != NULL) {
@@ -215,16 +218,11 @@ void afficher_patients(Parbre* abr) {
 
 void free_patient(Patient* p) {
     // suppression de l'attribut ListeConsult (liste chainee)
-    Consultation* ptrc = p->ListeConsult;
-    Consultation* temp;
-    while (ptrc != NULL) {
-        temp = ptrc;
-        ptrc = ptrc->suivant;
-        free(temp);
-    }
+    supprimer_consultations(p);
 
     free(p);
 }
+
 
 void supprimer_patient(Parbre* abr, char* nm) {
     int comparison;
@@ -300,6 +298,7 @@ void supprimer_patient(Parbre* abr, char* nm) {
     }
 }
 
+
 void free_all_patients(Patient* p) {
     if (p != NULL) {
         free_all_patients(p->fils_gauche);
@@ -307,6 +306,60 @@ void free_all_patients(Patient* p) {
         free_patient(p);
     }
 }
+
+
+void supprimer_consultations(Patient* p) {
+    // suppression de l'attribut ListeConsult (liste chainee)
+    Consultation* ptrc = p->ListeConsult;
+    Consultation* temp;
+    while (ptrc != NULL) {
+        temp = ptrc;
+        ptrc = ptrc->suivant;
+        free(temp);
+    }
+}
+
+
+int consultation_egale(Consultation* c1, Consultation* c2) { // verifie si les deux consultations sont egales
+    if (c1 == NULL && c2 == NULL) {return 1;}
+    else if (c1 == NULL || c2 == NULL) {return 0;}
+    else if (c1->date != c2->date) {return 0;}
+    else if (c1->motif != c2->motif) {return 0;}
+    else if (c1->niveauUrg != c2->niveauUrg) {return 0;}
+    return 1;
+}
+
+
+void maj_consultations(Consultation* reference, Patient* patient_modifier) {
+    // parcours les noeuds et test si similaires. Si un noeud est different remplace ses valeurs par les nouvelles.
+
+    if (consultation_egale(patient_modifier->ListeConsult, reference) == 0) {
+        patient_modifier->ListeConsult = CreerConsult(reference->date, reference->motif, reference->niveauUrg);
+    } // desormais patient_modifier->ListeConsult = reference
+    Consultation* ref_ptr = reference->suivant;
+    Consultation* modifier_ptr_prec = patient_modifier->ListeConsult;
+    Consultation* modifier_ptr = modifier_ptr_prec->suivant;
+    while (ref_ptr != NULL) {
+        if (consultation_egale(ref_ptr, modifier_ptr) == 0) { // le noeud doit etre mis a jour
+            if (modifier_ptr == NULL) { // cree un nouveau noeud
+                modifier_ptr_prec->suivant = CreerConsult(ref_ptr->date, ref_ptr->motif, ref_ptr->niveauUrg);
+            }
+            else { // met simplement a jour le noeud existant
+                modifier_ptr->date = ref_ptr->date;
+                modifier_ptr->motif = ref_ptr->motif;
+                modifier_ptr->niveauUrg = ref_ptr->niveauUrg;
+            }
+        }
+        modifier_ptr_prec = modifier_ptr_prec->suivant;
+        modifier_ptr = modifier_ptr_prec->suivant;
+    }
+    while (modifier_ptr != NULL) { // ref_ptr est NULL donc la chaine a partir de cette addresse pour modifier devrait etre NULL aussi
+        modifier_ptr_prec = modifier_ptr; // utilise modifier_ptr_prec comme variable temporaire pour free
+        modifier_ptr = modifier_ptr->suivant;
+        free(modifier_ptr_prec); // supprime chaque consultation superflue
+    }
+}
+
 
 void maj(Parbre* abr, Parbre* abr2) {
     // le parcours le plus bete du monde : parcourir, modifier si different -- abr2 copie basiquement abr, c'est un ABR a la fin
@@ -321,15 +374,125 @@ void maj(Parbre* abr, Parbre* abr2) {
             if (*abr2 == NULL) {
                 *abr2 = CreerPatient((*abr)->nom, (*abr)->prenom);
             }
-            else {
+            else { // changement du patient associe a ce noeud de l'arbre
                 (*abr2)->nom = (*abr)->nom;
                 (*abr2)->prenom = (*abr)->prenom;
+                supprimer_consultations((*abr2)->ListeConsult); // suppression des consultations enregistrees pour eviter les conflits d'attributs (consultations aux memes dates, niveaux d'urgence pour deux patients differents pour des motifs differents)
             }
-            (*abr2)->ListeConsult = (*abr)->ListeConsult; // COPIER LA LISTE DES CONSULTATIONS
-            (*abr2)->nbrconsult = (*abr)->nbrconsult; //CHECKER TOUTES LES CONSULTATIONS MEME SI LE NOM DU PATIENT EST BON
-            // les adresses des sous arbres ne changent pas
+
+            
+
+            (*abr2)->ListeConsult = (*abr)->ListeConsult;
+            (*abr2)->nbrconsult = (*abr)->nbrconsult;
+
         }
         maj(&((*abr)->fils_droit), &((*abr2)->fils_droit));
         maj(&((*abr)->fils_gauche), &((*abr2)->fils_gauche));
+    }
+}
+
+
+
+void interface() {
+    //allocation d'un espace pour la liste des matrices
+    Parbre liste_patients = NULL;
+    Parbre liste_backup = NULL;
+
+    int continuer = 1, reponse, urgence; // variables utilisees pour stocker les informations saisies
+    char* nom, prenom, date, motif;
+    while (continuer) {
+        //affichage du menu et attente d'une reponse
+        printf("Que voulez-vous faire ?\n1. Ajouter un patient\n2. Ajouter une consultation à un patient\n3. Afficher une fiche medicale\n4. Afficher la liste des patients\n5. Supprimer un patient\n6. Copier la liste des patients depuis la derniere sauvegarde\n7. Mettre a jour la sauvegarde de la liste des patients\n8. Quitter\n\n");
+        scanf("%d", &reponse);
+        printf("\n");
+
+        switch (reponse) {
+
+            case 1: // ajouter un patient
+
+                printf("\nSaisir un nom > ");
+                scanf("%s", nom); // demande nom et prenom du patient
+                printf("\nSaisir un prenom > ");
+                scanf("%s", prenom);
+                inserer_patient(&liste_patients, nom, prenom);
+                printf("\nPatient ajoute!");
+                printf("\n");
+                break;
+
+            case 2: // ajouter une consultation a un patient
+               
+                printf("\nSaisir un nom > ");
+                scanf("%s", nom); // demande nom du patient
+                if (rechercher_patient(&liste_patients, nom) == NULL) { // verifie si il existe
+                    printf("ce patient n'existe pas");
+                }
+                else { // le patient existe dans l'arbre
+                    printf("\nSaisissez la date de la consultation (JJ/MM/AAAA) > ");
+                    scanf("%s", date);
+                    printf("\nSaisissez le motif de la consultation > ");
+                    scanf("%s", motif);
+                    printf("\nSaisissez le niveau d'urgence de la consultation (entier) > ");
+                    scanf("%d", urgence);
+                    ajouter_consultation(&liste_patients, nom, date, motif, urgence);
+                    printf("\nConsultation ajoute!");
+                }
+                printf("\n");
+                break;
+
+            case 3: // afficher une fiche medicale
+                
+                printf("\nSaisir un nom > ");
+                scanf("%s", nom);
+                if (rechercher_patient(&liste_patients, nom) == NULL) {
+                    printf("ce patient n'existe pas");
+                }
+                else {
+                    afficher_fiche(&liste_patients, nom);
+                }
+                printf("\n");
+                break;
+
+            case 4: // afficher la liste des patients
+                
+                afficher_patients(&liste_patients);
+                printf("\n");
+                break;
+
+            case 5: // supprimer un patient
+                
+                printf("\nSaisir un nom > ");
+                scanf("%s", nom);
+                if (rechercher_patient(&liste_patients, nom) == NULL) {
+                    printf("ce patient n'existe pas");
+                }
+                else {
+                    supprimer_patient(&liste_patients, nom);
+                    printf("\nLe patient a ete supprime");
+                }
+                printf("\n");
+                break;
+
+            case 6: // copier la liste des patients depuis la derniere sauvegarde
+                
+                maj(liste_backup, liste_patients);
+                printf("Patients importes");
+                printf("\n");
+                break;
+
+            case 7: // mettre a jour la sauvegarde de la liste des patients
+                
+                maj(liste_patients, liste_backup);
+                printf("Patients sauvegardes");
+                printf("\n");
+                break;
+
+            case 8: { //quitter
+
+                free_all_patients(liste_patients); // suppression de tous les patients
+                free_all_patients(liste_backup);
+                continuer = 0; //sortie de la boucle
+                break;
+            }
+        }
     }
 }
