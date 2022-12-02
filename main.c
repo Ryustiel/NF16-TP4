@@ -55,10 +55,11 @@ void test(){
     supprimer_patient(&liste_patients, "J");
     supprimer_patient(&liste_patients, "L");
     supprimer_patient(&liste_patients, "H");*/
+    afficher_patients(&liste_patients);
 
-
+    //Maj
     maj(&liste_patients, &liste2);
-    
+
 
     afficher_patients(&liste_patients);
 
