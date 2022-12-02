@@ -10,21 +10,32 @@ void test(){
 
     //Insertion et affichage
     char* noms[15] = {"H", "D", "B", "A", "C", "F", "E", "G", "L", "N", "O", "M", "J", "K", "I"};
-    printf("yo");
     for (int i=0; i<15; i++) {
         inserer_patient(&liste_patients, noms[i], "Luc");
     }
-    afficher_patients(&liste_patients);
+    //afficher_patients(&liste_patients);
+
+    //Comparaison de dates
+    /*printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/01/2001", "", 0)));
+    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/01/2010", "", 0)));
+    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/01/2100", "", 0)));
+    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/01/3000", "", 0)));
+    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/02/2000", "", 0)));
+    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/11/2000", "", 0)));
+    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("02/01/2000", "", 0)));
+    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("11/01/2000", "", 0)));
+    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/01/1999", "", 0)));*/
 
     //Recherche, ajouter consultation et fiche
     ajouter_consultation(&liste_patients, "F", "01/01/2004", "vomissement", 2);
+    ajouter_consultation(&liste_patients, "K", "01/01/2000", "fievre", 0);
     ajouter_consultation(&liste_patients, "K", "01/01/1999", "fievre", 0);
     ajouter_consultation(&liste_patients, "K", "01/01/2002", "douleur", 1);
     ajouter_consultation(&liste_patients, "K", "01/01/2001", "gastro", 2);
     ajouter_consultation(&liste_patients, "Z", "01/01/2000", "fievre", 0);
     ajouter_consultation(&liste2, "K", "01/01/2000", "fievre", 0);
 
-    afficher_fiche(&liste_patients, "H");
+    /*afficher_fiche(&liste_patients, "H");
     afficher_fiche(&liste_patients, "B");
     afficher_fiche(&liste_patients, "F");
     afficher_fiche(&liste_patients, "K");
@@ -34,7 +45,17 @@ void test(){
     afficher_fiche(&liste_patients, "GA");
     afficher_fiche(&liste_patients, "EA");
     afficher_fiche(&liste_patients, "Z");
-    afficher_fiche(&liste2, "H");
+    afficher_fiche(&liste2, "H");*/
+
+    //Suppression
+    supprimer_patient(&liste_patients, "C");
+    supprimer_patient(&liste_patients, "E");
+    supprimer_patient(&liste_patients, "B");
+    supprimer_patient(&liste_patients, "F");
+    supprimer_patient(&liste_patients, "J");
+    supprimer_patient(&liste_patients, "L");
+    supprimer_patient(&liste_patients, "H");
+    afficher_patients(&liste_patients);
 }
 
 void main(){

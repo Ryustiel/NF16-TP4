@@ -188,7 +188,7 @@ Patient* rechercher_patient(Parbre* abr, char* nm) {
 void afficher_fiche(Parbre* abr, char* nm) {
     Patient* p = rechercher_patient(abr, nm);
     if (p != NULL) {
-        printf("Nom : %s\nPrenom%s\nNombre de consultations : %d\n", p->nom, p->prenom, p->nbrconsult);
+        printf("Nom : %s\nPrenom : %s\nNombre de consultations : %d\n", p->nom, p->prenom, p->nbrconsult);
 
         Consultation* consult = p->ListeConsult;
         while (consult != NULL) {
@@ -214,9 +214,6 @@ void afficher_patients(Parbre* abr) {
 
 
 void free_patient(Patient* p) {
-    free(p->nom);
-    free(p->prenom);
-
     // suppression de l'attribut ListeConsult (liste chainee)
     Consultation* ptrc = p->ListeConsult;
     Consultation* temp;
