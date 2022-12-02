@@ -21,7 +21,7 @@ Patient* CreerPatient(char* nm, char* pr) {
 
 Consultation* CreerConsult(char* date, char* motif, int nivu) {
     // creation d'objet
-    Consultation* c = malloc(sizeof(Patient));
+    Consultation* c = malloc(sizeof(Consultation));
 
     // initialization des attributs
     c->date = date;
@@ -37,13 +37,16 @@ Consultation* CreerConsult(char* date, char* motif, int nivu) {
 void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), pr (prenom//)
 
     // normalisation des caracteres du nom (defini uniquement majuscule)
-    int i = 0;
+    /*int i = 0;
+    char test;
     while (nm[i] != '\0') {
         if (nm[i] >= 'a') {
-            nm[i] = nm[i] - ('a' - 'A'); // minuscule to majuscule
+            //printf("%c %c\n", nm[i], nm[i] - 'a' + 'A');
+            test = nm[i] - 'a' + 'A'; // minuscule to majuscule
+            printf("%c", test);
         }
         i++;
-    }
+    }*/
 
     // arbre vide : insertion en tete
     if (*abr == NULL) { // patient as root node
@@ -187,12 +190,16 @@ Patient* rechercher_patient(Parbre* abr, char* nm) {
 
 void afficher_fiche(Parbre* abr, char* nm) {
     Patient* p = rechercher_patient(abr, nm);
-    printf("Nom : %s\nPrenom%s\nNombre de consultations : %d\n", p->nom, p->prenom, p->nbrconsult);
+    if (p != NULL) {
+        printf("Nom : %s\nPrenom : %s\nNombre de consultations : %d\n", p->nom, p->prenom, p->nbrconsult);
 
-    Consultation* consult = p->ListeConsult;
-    while (consult != NULL) {
-        printf("\nDate de la consultation : %s\nMotif : %s\nNiveau d'urgence : %d\n", consult->date, consult->motif, consult->niveauUrg);
-        consult = consult->suivant;
+        Consultation* consult = p->ListeConsult;
+        while (consult != NULL) {
+            printf("\nDate de la consultation : %s\nMotif : %s\nNiveau d'urgence : %d\n", consult->date, consult->motif, consult->niveauUrg);
+            consult = consult->suivant;
+        }
+    } else {
+        printf("Le patient %s n'est pas enregistre.\n", nm);
     }
 }
 
@@ -210,9 +217,6 @@ void afficher_patients(Parbre* abr) {
 
 
 void free_patient(Patient* p) {
-    free(p->nom);
-    free(p->prenom);
-
     // suppression de l'attribut ListeConsult (liste chainee)
     supprimer_consultations(p);
 
