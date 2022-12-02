@@ -294,6 +294,7 @@ void supprimer_patient(Parbre* abr, char* nm) {
 
         // suppression des attributs pointes (ptr->->)
         free_patient(ptr);
+        break;
         }
     }
 }
@@ -481,7 +482,7 @@ void interface() {
 
             case 7: // mettre a jour la sauvegarde de la liste des patients
 
-                maj(liste_patients, liste_backup);
+                maj(&liste_patients, &liste_backup);
                 printf("Patients sauvegardes");
                 printf("\n");
                 break;
