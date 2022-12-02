@@ -218,7 +218,7 @@ void afficher_patients(Parbre* abr) {
 
 void free_patient(Patient* p) {
     // suppression de l'attribut ListeConsult (liste chainee)
-    //supprimer_consultations(p);
+    supprimer_consultations(p);
 
     free(p);
 }
@@ -377,7 +377,7 @@ void maj(Parbre* abr, Parbre* abr2) {
             else { // changement du patient associe a ce noeud de l'arbre
                 (*abr2)->nom = (*abr)->nom;
                 (*abr2)->prenom = (*abr)->prenom;
-                supprimer_consultations((*abr2)->ListeConsult); // suppression des consultations enregistrees pour eviter les conflits d'attributs (consultations aux memes dates, niveaux d'urgence pour deux patients differents pour des motifs differents)
+                supprimer_consultations(*abr2); // suppression des consultations enregistrees pour eviter les conflits d'attributs (consultations aux memes dates, niveaux d'urgence pour deux patients differents pour des motifs differents)
             }
 
 
@@ -480,7 +480,7 @@ void interface() {
                 break;
 
             case 7: // mettre a jour la sauvegarde de la liste des patients
-                
+
                 maj(liste_patients, liste_backup);
                 printf("Patients sauvegardes");
                 printf("\n");
