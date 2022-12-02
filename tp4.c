@@ -218,7 +218,7 @@ void afficher_patients(Parbre* abr) {
 
 void free_patient(Patient* p) {
     // suppression de l'attribut ListeConsult (liste chainee)
-    supprimer_consultations(p);
+    //supprimer_consultations(p);
 
     free(p);
 }
@@ -235,7 +235,7 @@ void supprimer_patient(Parbre* abr, char* nm) {
         ptr_prec = ptr;
         ptr = ptr->fils_droit;
       }
-      else if (comparison > 0) { // GERER CAS OU PATIENT EST LA ROOT NODE
+      else if (comparison > 0) {
         ptr_prec = ptr;
         ptr = ptr->fils_gauche;
       }
@@ -380,7 +380,7 @@ void maj(Parbre* abr, Parbre* abr2) {
                 supprimer_consultations((*abr2)->ListeConsult); // suppression des consultations enregistrees pour eviter les conflits d'attributs (consultations aux memes dates, niveaux d'urgence pour deux patients differents pour des motifs differents)
             }
 
-            
+
 
             (*abr2)->ListeConsult = (*abr)->ListeConsult;
             (*abr2)->nbrconsult = (*abr)->nbrconsult;
@@ -420,7 +420,7 @@ void interface() {
                 break;
 
             case 2: // ajouter une consultation a un patient
-               
+
                 printf("\nSaisir un nom > ");
                 scanf("%s", nom); // demande nom du patient
                 if (rechercher_patient(&liste_patients, nom) == NULL) { // verifie si il existe
@@ -440,7 +440,7 @@ void interface() {
                 break;
 
             case 3: // afficher une fiche medicale
-                
+
                 printf("\nSaisir un nom > ");
                 scanf("%s", nom);
                 if (rechercher_patient(&liste_patients, nom) == NULL) {
@@ -453,13 +453,13 @@ void interface() {
                 break;
 
             case 4: // afficher la liste des patients
-                
+
                 afficher_patients(&liste_patients);
                 printf("\n");
                 break;
 
             case 5: // supprimer un patient
-                
+
                 printf("\nSaisir un nom > ");
                 scanf("%s", nom);
                 if (rechercher_patient(&liste_patients, nom) == NULL) {
@@ -473,14 +473,14 @@ void interface() {
                 break;
 
             case 6: // copier la liste des patients depuis la derniere sauvegarde
-                
+
                 maj(liste_backup, liste_patients);
                 printf("Patients importes");
                 printf("\n");
                 break;
 
             case 7: // mettre a jour la sauvegarde de la liste des patients
-                
+
                 maj(liste_patients, liste_backup);
                 printf("Patients sauvegardes");
                 printf("\n");
