@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "tp4.c"
+#include "tp4.h"
 
 void test(){
     Parbre liste_patients = NULL;
@@ -48,8 +48,8 @@ void test(){
     afficher_fiche(&liste2, "H");*/
 
     //Suppression
-    /*supprimer_patient(&liste_patients, "C");
-    supprimer_patient(&liste_patients, "E");
+    supprimer_patient(&liste_patients, "C");
+    /*supprimer_patient(&liste_patients, "E");
     supprimer_patient(&liste_patients, "B");
     supprimer_patient(&liste_patients, "F");
     supprimer_patient(&liste_patients, "J");

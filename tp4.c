@@ -442,7 +442,7 @@ void interface() {
             case 3: // afficher une fiche medicale
 
                 printf("\nSaisir un nom > ");
-                scanf("%s", &nom);
+                scanf("%s", nom);
                 if (rechercher_patient(&liste_patients, nom) == NULL) {
                     printf("ce patient n'existe pas");
                 }
@@ -461,7 +461,7 @@ void interface() {
             case 5: // supprimer un patient
 
                 printf("\nSaisir un nom > ");
-                scanf("%s", &nom);
+                scanf("%s", nom);
                 if (rechercher_patient(&liste_patients, nom) == NULL) {
                     printf("ce patient n'existe pas");
                 }
@@ -481,7 +481,7 @@ void interface() {
 
             case 7: // mettre a jour la sauvegarde de la liste des patients
 
-                maj(liste_patients, liste_backup);
+                maj(&liste_patients, &liste_backup);
                 printf("Patients sauvegardes");
                 printf("\n");
                 break;
