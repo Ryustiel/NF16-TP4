@@ -411,9 +411,9 @@ void interface() {
             case 1: // ajouter un patient
 
                 printf("\nSaisir un nom > ");
-                scanf("%s", nom); // demande nom et prenom du patient
+                scanf("%s", &nom); // demande nom et prenom du patient
                 printf("\nSaisir un prenom > ");
-                scanf("%s", prenom);
+                scanf("%s", &prenom);
                 inserer_patient(&liste_patients, nom, prenom);
                 printf("\nPatient ajoute!");
                 printf("\n");
@@ -422,15 +422,15 @@ void interface() {
             case 2: // ajouter une consultation a un patient
 
                 printf("\nSaisir un nom > ");
-                scanf("%s", nom); // demande nom du patient
+                scanf("%s", &nom); // demande nom du patient
                 if (rechercher_patient(&liste_patients, nom) == NULL) { // verifie si il existe
                     printf("ce patient n'existe pas");
                 }
                 else { // le patient existe dans l'arbre
                     printf("\nSaisissez la date de la consultation (JJ/MM/AAAA) > ");
-                    scanf("%s", date);
+                    scanf("%s", &date);
                     printf("\nSaisissez le motif de la consultation > ");
-                    scanf("%s", motif);
+                    scanf("%s", &motif);
                     printf("\nSaisissez le niveau d'urgence de la consultation (entier) > ");
                     scanf("%d", &urgence);
                     ajouter_consultation(&liste_patients, nom, date, motif, urgence);
@@ -442,7 +442,7 @@ void interface() {
             case 3: // afficher une fiche medicale
 
                 printf("\nSaisir un nom > ");
-                scanf("%s", nom);
+                scanf("%s", &nom);
                 if (rechercher_patient(&liste_patients, nom) == NULL) {
                     printf("ce patient n'existe pas");
                 }
@@ -461,7 +461,7 @@ void interface() {
             case 5: // supprimer un patient
 
                 printf("\nSaisir un nom > ");
-                scanf("%s", nom);
+                scanf("%s", &nom);
                 if (rechercher_patient(&liste_patients, nom) == NULL) {
                     printf("ce patient n'existe pas");
                 }
