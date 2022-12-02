@@ -34,7 +34,6 @@ void maj(Parbre* abr, Parbre* abr2);
 
 void interface();
 void maj_consultations(Consultation* reference, Patient* patient_modifier);
-int consultation_egale(Consultation* c1, Consultation* c2);
 void supprimer_consultations(Patient* p);
 void free_all_patients(Patient* p);
 void free_patient(Patient* p);
