@@ -395,8 +395,8 @@ void maj(Parbre* abr, Parbre* abr2) {
 
 void interface() {
     //allocation d'un espace pour la liste des matrices
-    Parbre liste_patients = NULL;
-    Parbre liste_backup = NULL;
+    Parbre* liste_patients = NULL;
+    Parbre* liste_backup = NULL;
 
     int continuer = 1, reponse, urgence; // variables utilisees pour stocker les informations saisies
     char nom[30], prenom[30], date[10], motif[120];
@@ -414,7 +414,7 @@ void interface() {
                 scanf("%s", nom); // demande nom et prenom du patient
                 printf("\nSaisir un prenom > ");
                 scanf("%s", prenom);
-                inserer_patient(&liste_patients, nom, prenom);
+                inserer_patient(liste_patients, nom, prenom);
                 printf("\nPatient ajoute!");
                 printf("\n");
                 break;
@@ -423,7 +423,7 @@ void interface() {
 
                 printf("\nSaisir un nom > ");
                 scanf("%s", nom); // demande nom du patient
-                if (rechercher_patient(&liste_patients, nom) == NULL) { // verifie si il existe
+                if (rechercher_patient(liste_patients, nom) == NULL) { // verifie si il existe
                     printf("ce patient n'existe pas");
                 }
                 else { // le patient existe dans l'arbre
@@ -433,7 +433,7 @@ void interface() {
                     scanf("%s", motif);
                     printf("\nSaisissez le niveau d'urgence de la consultation (entier) > ");
                     scanf("%d", &urgence);
-                    ajouter_consultation(&liste_patients, nom, date, motif, urgence);
+                    ajouter_consultation(liste_patients, nom, date, motif, urgence);
                     printf("\nConsultation ajoute!");
                 }
                 printf("\n");
@@ -442,31 +442,31 @@ void interface() {
             case 3: // afficher une fiche medicale
 
                 printf("\nSaisir un nom > ");
-                scanf("%s", &nom);
-                if (rechercher_patient(&liste_patients, nom) == NULL) {
+                scanf("%s", nom);
+                if (rechercher_patient(liste_patients, nom) == NULL) {
                     printf("ce patient n'existe pas");
                 }
                 else {
-                    afficher_fiche(&liste_patients, nom);
+                    afficher_fiche(liste_patients, nom);
                 }
                 printf("\n");
                 break;
 
             case 4: // afficher la liste des patients
 
-                afficher_patients(&liste_patients);
+                afficher_patients(liste_patients);
                 printf("\n");
                 break;
 
             case 5: // supprimer un patient
 
                 printf("\nSaisir un nom > ");
-                scanf("%s", &nom);
-                if (rechercher_patient(&liste_patients, nom) == NULL) {
+                scanf("%s", nom);
+                if (rechercher_patient(liste_patients, nom) == NULL) {
                     printf("ce patient n'existe pas");
                 }
                 else {
-                    supprimer_patient(&liste_patients, nom);
+                    supprimer_patient(liste_patients, nom);
                     printf("\nLe patient a ete supprime");
                 }
                 printf("\n");
@@ -474,7 +474,7 @@ void interface() {
 
             case 6: // copier la liste des patients depuis la derniere sauvegarde
 
-                maj(&liste_backup, &liste_patients);
+                maj(liste_backup, liste_patients);
                 printf("Patients importes");
                 printf("\n");
                 break;
@@ -488,8 +488,8 @@ void interface() {
 
             case 8: { //quitter
 
-                free_all_patients(liste_patients); // suppression de tous les patients
-                free_all_patients(liste_backup);
+                free_all_patients(*liste_patients); // suppression de tous les patients
+                free_all_patients(*liste_backup);
                 continuer = 0; //sortie de la boucle
                 break;
             }
