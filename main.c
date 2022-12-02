@@ -48,14 +48,24 @@ void test(){
     afficher_fiche(&liste2, "H");*/
 
     //Suppression
-    supprimer_patient(&liste_patients, "C");
+    /*supprimer_patient(&liste_patients, "C");
     supprimer_patient(&liste_patients, "E");
     supprimer_patient(&liste_patients, "B");
     supprimer_patient(&liste_patients, "F");
     supprimer_patient(&liste_patients, "J");
     supprimer_patient(&liste_patients, "L");
-    supprimer_patient(&liste_patients, "H");
+    supprimer_patient(&liste_patients, "H");*/
+
+
+    maj(&liste_patients, &liste2);
+    
+
     afficher_patients(&liste_patients);
+
+    printf("TEEEEEST");
+
+    afficher_patients(&liste2);
+
 }
 
 void main(){
