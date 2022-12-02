@@ -10,14 +10,14 @@ void main(){
 
     Parbre liste_patients = NULL;
 
-    char* noms[15] = {"h", "d", "b", "a", "c", "f", "e", "g", "l", "n", "o", "m", "j", "k", "i"};
+    char* noms[15] = {"H", "D", "B", "A", "C", "F", "E", "G", "L", "N", "O", "M", "J", "K", "I"};
 
     printf("yo");
     for (int i=0; i<15; i++) {
         inserer_patient(&liste_patients, noms[i], "Luc");
     }
 
-    //afficher_patients(&liste_patients);
+    afficher_patients(&liste_patients);
     //Parbre copie = NULL;
     //maj(&liste_patients, &copie);
     //afficher_patients(&copie);

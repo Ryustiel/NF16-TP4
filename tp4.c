@@ -35,13 +35,16 @@ Consultation* CreerConsult(char* date, char* motif, int nivu) {
 void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), pr (prenom//)
 
     // normalisation des caracteres du nom (defini uniquement majuscule)
-    int i = 0;
+    /*int i = 0;
+    char test;
     while (nm[i] != '\0') {
         if (nm[i] >= 'a') {
-            nm[i] = nm[i] - ('a' - 'A'); // minuscule to majuscule
+            //printf("%c %c\n", nm[i], nm[i] - 'a' + 'A');
+            test = nm[i] - 'a' + 'A'; // minuscule to majuscule
+            printf("%c", test);
         }
         i++;
-    }
+    }*/
 
     // arbre vide : insertion en tete
     if (*abr == NULL) { // patient as root node
