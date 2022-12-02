@@ -335,7 +335,13 @@ void maj_consultations(Consultation* reference, Patient* patient_modifier) {
     // parcours les noeuds et test si similaires. Si un noeud est different remplace ses valeurs par les nouvelles.
 
     if (consultation_egale(patient_modifier->ListeConsult, reference) == 0) {
-        patient_modifier->ListeConsult = CreerConsult(reference->date, reference->motif, reference->niveauUrg);
+        if (modifier_ptr == NULL) { // cree un nouveau noeud
+            patient_modifier->ListeConsult = CreerConsult(reference->date, reference->motif, reference->niveauUrg);
+        } else { // met simplement a jour le noeud existant
+            patient_modifier->ListeConsult->date = ref_ptr->date;
+            patient_modifier->ListeConsult->motif = ref_ptr->motif;
+            patient_modifier->ListeConsult->niveauUrg = ref_ptr->niveauUrg;
+        }
     } // desormais patient_modifier->ListeConsult = reference
     Consultation* ref_ptr = reference->suivant;
     Consultation* modifier_ptr_prec = patient_modifier->ListeConsult;
