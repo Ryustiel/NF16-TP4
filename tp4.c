@@ -399,7 +399,7 @@ void interface() {
     Parbre liste_backup = NULL;
 
     int continuer = 1, reponse, urgence; // variables utilisees pour stocker les informations saisies
-    char* nom, prenom, date, motif;
+    char nom[30], prenom[30], date[10], motif[120];
     while (continuer) {
         //affichage du menu et attente d'une reponse
         printf("Que voulez-vous faire ?\n1. Ajouter un patient\n2. Ajouter une consultation à un patient\n3. Afficher une fiche medicale\n4. Afficher la liste des patients\n5. Supprimer un patient\n6. Copier la liste des patients depuis la derniere sauvegarde\n7. Mettre a jour la sauvegarde de la liste des patients\n8. Quitter\n\n");
@@ -411,9 +411,9 @@ void interface() {
             case 1: // ajouter un patient
 
                 printf("\nSaisir un nom > ");
-                scanf("%s", &nom); // demande nom et prenom du patient
+                scanf("%s", nom); // demande nom et prenom du patient
                 printf("\nSaisir un prenom > ");
-                scanf("%s", &prenom);
+                scanf("%s", prenom);
                 inserer_patient(&liste_patients, nom, prenom);
                 printf("\nPatient ajoute!");
                 printf("\n");
@@ -422,15 +422,15 @@ void interface() {
             case 2: // ajouter une consultation a un patient
 
                 printf("\nSaisir un nom > ");
-                scanf("%s", &nom); // demande nom du patient
+                scanf("%s", nom); // demande nom du patient
                 if (rechercher_patient(&liste_patients, nom) == NULL) { // verifie si il existe
                     printf("ce patient n'existe pas");
                 }
                 else { // le patient existe dans l'arbre
                     printf("\nSaisissez la date de la consultation (JJ/MM/AAAA) > ");
-                    scanf("%s", &date);
+                    scanf("%s", date);
                     printf("\nSaisissez le motif de la consultation > ");
-                    scanf("%s", &motif);
+                    scanf("%s", motif);
                     printf("\nSaisissez le niveau d'urgence de la consultation (entier) > ");
                     scanf("%d", &urgence);
                     ajouter_consultation(&liste_patients, nom, date, motif, urgence);

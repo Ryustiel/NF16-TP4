@@ -62,12 +62,13 @@ void test(){
 
     afficher_patients(&liste_patients);
 
-    printf("TEEEEEST");
+    printf("TEEEEEST\n\n");
 
     afficher_patients(&liste2);
 
 }
 
-void main(){
+int main(){
     test();
+    return 0;
 }
