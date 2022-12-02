@@ -428,7 +428,7 @@ void interface() {
                     printf("\nSaisissez le motif de la consultation > ");
                     scanf("%s", motif);
                     printf("\nSaisissez le niveau d'urgence de la consultation (entier) > ");
-                    scanf("%d", urgence);
+                    scanf("%d", &urgence);
                     ajouter_consultation(&liste_patients, nom, date, motif, urgence);
                     printf("\nConsultation ajoute!");
                 }
@@ -470,14 +470,14 @@ void interface() {
 
             case 6: // copier la liste des patients depuis la derniere sauvegarde
                 
-                maj(liste_backup, liste_patients);
+                maj(&liste_backup, &liste_patients);
                 printf("Patients importes");
                 printf("\n");
                 break;
 
             case 7: // mettre a jour la sauvegarde de la liste des patients
                 
-                maj(liste_patients, liste_backup);
+                maj(&liste_patients, &liste_backup);
                 printf("Patients sauvegardes");
                 printf("\n");
                 break;
