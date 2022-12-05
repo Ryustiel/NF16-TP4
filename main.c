@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "tp4.c"
+#include "tp4.h"
 
 void test(){
     Parbre liste_patients = NULL;
