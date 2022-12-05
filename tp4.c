@@ -3,7 +3,7 @@
 #include<string.h>
 #include"tp4.h"
 
-Patient* CreerPatient(char* nm, char* pr) {
+Patient* CreerPatient(char nm[30], char pr[30]) {
     // creation d'objet
     Patient* p = malloc(sizeof(Patient));
 
@@ -23,7 +23,7 @@ Patient* CreerPatient(char* nm, char* pr) {
 }
 
 
-Consultation* CreerConsult(char* date, char* motif, int nivu) {
+Consultation* CreerConsult(char date[10], char motif[120], int nivu) {
     // creation d'objet
     Consultation* c = malloc(sizeof(Consultation));
 
@@ -42,7 +42,7 @@ Consultation* CreerConsult(char* date, char* motif, int nivu) {
 
 
 // CAP CONTROL (done, needs double checking)
-void inserer_patient(Parbre* abr, char* nm, char* pr) { // nm (nom a inserer), pr (prenom//)
+void inserer_patient(Parbre* abr, char nm[30], char pr[30]) { // nm (nom a inserer), pr (prenom//)
 
     // normalisation des caracteres du nom (defini uniquement majuscule)
     /*int i = 0;
@@ -122,7 +122,7 @@ int datecmp(char date1[10], char date2[10]) { // compare les caracteristiques de
 
 
 // trier par rapport a : date ordre croissant, niveau d'urgence ordre decroissant (priorite secondaire)
-void ajouter_consultation(Parbre* abr, char* nm, char date[10], char* motif, int nivu) {
+void ajouter_consultation(Parbre* abr, char nm[30], char date[10], char motif[120], int nivu) {
     Patient* p = rechercher_patient(abr, nm);
 
     if (p != NULL) { // valeur par defaut de rechercher_patient, cas patient non trouve
@@ -168,7 +168,7 @@ void ajouter_consultation(Parbre* abr, char* nm, char date[10], char* motif, int
 
 
 
-Patient* rechercher_patient(Parbre* abr, char* nm) {
+Patient* rechercher_patient(Parbre* abr, char nm[30]) {
     Patient* ptr = *abr; // switch du type vers pointeur sur Patient (typedef Patient* Parbre;) Patient*->nom <=> Parbre->nom <=> *(Parbre*)->nom
     while (ptr != NULL) {
         int rel = strcmp(ptr->nom, nm); //comparaison du nom du patient et du noeud
@@ -184,7 +184,7 @@ Patient* rechercher_patient(Parbre* abr, char* nm) {
 }
 
 
-void afficher_fiche(Parbre* abr, char* nm) {
+void afficher_fiche(Parbre* abr, char nm[30]) {
     Patient* p = rechercher_patient(abr, nm);
     if (p != NULL) {
         printf("Nom : %s\nPrenom : %s\nNombre de consultations : %d\n", p->nom, p->prenom, p->nbrconsult);
@@ -223,7 +223,7 @@ void free_patient(Patient* p) {
 }
 
 
-void supprimer_patient(Parbre* abr, char* nm) {
+void supprimer_patient(Parbre* abr, char nm[30]) {
     int comparison;
     Patient* ptr = *abr;
     Patient* ptr_prec = NULL;

@@ -21,15 +21,15 @@ typedef struct Patient {
 
 typedef Patient* Parbre;
 
-Patient* CreerPatient(char* nm, char* pr);
-void inserer_patient(Parbre* abr, char* nm, char* pr);
-Patient* rechercher_patient(Parbre* abr, char* nm);
-void afficher_fiche(Parbre* abr, char* nm);
+Patient* CreerPatient(char nm[60], char pr[30]);
+void inserer_patient(Parbre* abr, char nm[30], char pr[30]);
+Patient* rechercher_patient(Parbre* abr, char nm[30]);
+void afficher_fiche(Parbre* abr, char nm[60]);
 void afficher_patients(Parbre* abr);
-Consultation* CreerConsult(char* date, char* motif, int nivu);
-int consultcmp(Consultation* relative, Consultation* nouvelle);
-void ajouter_consultation(Parbre* abr, char* nm, char* date, char* motif, int nivu);
-void supprimer_patient(Parbre* abr, char* nm);
+Consultation* CreerConsult(char date[10], char motif[120], int nivu);
+int datecmp(char date1[10], char date2[10]);
+void ajouter_consultation(Parbre* abr, char nm[30], char date[10], char motif[120], int nivu);
+void supprimer_patient(Parbre* abr, char nm[30]);
 void maj(Parbre* abr, Parbre* abr2);
 
 void interface();
@@ -37,6 +37,6 @@ void maj_consultations(Consultation* reference, Patient* patient_modifier);
 void supprimer_consultations(Patient* p);
 void free_all_patients(Patient* p);
 void free_patient(Patient* p);
-int consultcmp(Consultation* relative, Consultation* nouvelle);
+int datecmp(char date1[10], char date2[10]);
 
 #endif // TP3_H_INCLUDED
