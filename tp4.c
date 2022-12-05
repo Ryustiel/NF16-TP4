@@ -122,7 +122,7 @@ int datecmp(char date1[10], char date2[10]) { // compare les caracteristiques de
 
 
 // trier par rapport a : date ordre croissant, niveau d'urgence ordre decroissant (priorite secondaire)
-void ajouter_consultation(Parbre* abr, char* nm, char* date, char* motif, int nivu) {
+void ajouter_consultation(Parbre* abr, char* nm, char date[10], char* motif, int nivu) {
     Patient* p = rechercher_patient(abr, nm);
 
     if (p != NULL) { // valeur par defaut de rechercher_patient, cas patient non trouve
@@ -138,7 +138,7 @@ void ajouter_consultation(Parbre* abr, char* nm, char* date, char* motif, int ni
             Consultation* ptr = p->ListeConsult;
             Consultation* ptr_prec;
 
-            if (datecmp(date, ptr->date) > 0) { // checking the root node
+            if (datecmp(date, ptr->date) > 0) { // date > a la date au pointeur
                 // inserer en tant que tete de liste
                 p->ListeConsult = CreerConsult(date, motif, nivu);
                 p->ListeConsult->suivant = ptr;
@@ -148,23 +148,20 @@ void ajouter_consultation(Parbre* abr, char* nm, char* date, char* motif, int ni
                 int comparison;
 
                 while (ptr != NULL) { // en fin de boucle ptr vaut soit un sous arbre de ptr_prec (disctingue par last_fils) soit ne change pas
-                    comparison = datecmp(nm, ptr->date);
+                    comparison = datecmp(date, ptr->date);
                     ptr_prec = ptr;
+                    ptr = ptr->suivant;
 
-                    if (comparison < 0) { // ptr->date < date
-                        ptr = ptr->suivant;
-                    }
-                    else { // ptr->date >= date
-                        break; // le ptr a une date superieure ou egale a la nouvelle date : proceder a l'insertion sur le precedent
+                    if (comparison > 0) { // date > ptr->date
+                        break; // pour la premiere fois date > ptr->date, inserer avant ce noeud => apres le precedent
                     }
                 // sinon continuer (jusqu'a ptr suivant >= ou ptr = NULL (cas de l'insertion en fin de chaine)
                 }
             }
 
             ptr_prec->suivant = CreerConsult(date, motif, nivu);
-            ptr_prec->suivant->suivant = ptr; // chainage simple, pas besoin de definir un precedent
+            ptr_prec->suivant->suivant = ptr; // chainage simple
 
-            }
         }
     }
 }
