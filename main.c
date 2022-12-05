@@ -9,12 +9,13 @@ void test(){
     Parbre liste2 = NULL, liste3 = NULL;
 
     //Insertion et affichage
+    /*
     char* noms[15] = {"H", "D", "B", "A", "C", "F", "E", "G", "L", "N", "O", "M", "J", "K", "I"};
     for (int i=0; i<15; i++) {
         inserer_patient(&liste_patients, noms[i], "Luc");
     }
     afficher_patients(&liste_patients);
-
+    */
 
 
     //Premier test de MAJ

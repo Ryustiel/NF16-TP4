@@ -98,11 +98,12 @@ int datecmp(char date1[10], char date2[10]) { // compare les caracteristiques de
     // comparaison de date
     int indices[8] = {1, 0, 4, 3, 9, 8, 7, 6}; // composants de la date par ordre d'importance : JJ-MM-AAAA, 78-56-1234 (0 1 - 3 4 - 6 7 8 9)
     int result = 0;
-    int puissance = 1;
+    int rang = 1;
 
-    for (int i; i<8; i++) {
-        result += (date1[indices[i]] - date2[indices[i]]) * puissance;
-        puissance *= 10;
+    for (int i=0; i<8; i++) {
+        result += (date1[indices[i]] - date2[indices[i]]) * rang;
+        printf("\n%d - %d (%d)", date1[indices[i]],  date2[indices[i]], rang);
+        rang *= 10;
     }
 
     return result;
