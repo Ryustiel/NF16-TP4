@@ -24,15 +24,15 @@ void test(){
 
 
     //Comparaison de dates
-    /*printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/01/2001", "", 0)));
-    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/01/2010", "", 0)));
-    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/01/2100", "", 0)));
-    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/01/3000", "", 0)));
-    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/02/2000", "", 0)));
-    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/11/2000", "", 0)));
-    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("02/01/2000", "", 0)));
-    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("11/01/2000", "", 0)));
-    printf("%d", consultcmp(CreerConsult("01/01/2000", "", 0), CreerConsult("01/01/1999", "", 0)));*/
+    printf("%d", datecmp("01/01/2000", "01/01/2001"));
+    printf("%d", datecmp("01/01/2000", "01/01/2010"));
+    printf("%d", datecmp("01/01/2000", "01/01/2100"));
+    printf("%d", datecmp("01/01/2000", "01/01/3000"));
+    printf("%d", datecmp("01/01/2000", "01/02/2000"));
+    printf("%d", datecmp("01/01/2000", "01/11/2000"));
+    printf("%d", datecmp("01/01/2000", "02/01/2000"));
+    printf("%d", datecmp("01/01/2000", "11/01/2000"));
+    printf("%d", datecmp("01/01/2000", "01/01/1999"));
 
 
 

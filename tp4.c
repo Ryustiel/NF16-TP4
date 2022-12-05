@@ -105,6 +105,7 @@ int datecmp(char date1[10], char date2[10]) { // compare les caracteristiques de
         puissance *= 10;
     }
 
+    return result;
 }
 
 
