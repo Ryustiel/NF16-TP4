@@ -41,20 +41,7 @@ Consultation* CreerConsult(char date[10], char motif[120], int nivu) {
 }
 
 
-// CAP CONTROL (done, needs double checking)
-void inserer_patient(Parbre* abr, char nm[30], char pr[30]) { // nm (nom a inserer), pr (prenom//)
-
-    // normalisation des caracteres du nom (defini uniquement majuscule)
-    /*int i = 0;
-    char test;
-    while (nm[i] != '\0') {
-        if (nm[i] >= 'a') {
-            //printf("%c %c\n", nm[i], nm[i] - 'a' + 'A');
-            test = nm[i] - 'a' + 'A'; // minuscule to majuscule
-            printf("%c", test);
-        }
-        i++;
-    }*/
+void inserer_patient(Parbre* abr, char nm[30], char pr[30]) {
 
     // arbre vide : insertion en tete
     if (*abr == NULL) { // patient as root node
@@ -472,6 +459,7 @@ void interface() {
 
                 free_all_patients(liste_patients); // suppression de tous les patients
                 free_all_patients(liste_backup);
+
                 continuer = 0; //sortie de la boucle
                 break;
             }
