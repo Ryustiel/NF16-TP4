@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "tp4.c"
+#include "tp4.h"
 
 void test(){
     Parbre liste_patients = NULL;
@@ -13,13 +13,13 @@ void test(){
     for (int i=0; i<15; i++) {
         inserer_patient(&liste_patients, noms[i], "Luc");
     }
-    //afficher_patients(&liste_patients);
+    afficher_patients(&liste_patients);
 
 
 
     //Premier test de MAJ
-    maj(&liste_patients, &liste3);
-    afficher_patients(&liste3);
+    //maj(&liste_patients, &liste3);
+    //afficher_patients(&liste3);
 
 
 
@@ -43,6 +43,7 @@ void test(){
     ajouter_consultation(&liste_patients, "K", "01/01/2002", "douleur", 1);
     ajouter_consultation(&liste_patients, "K", "01/01/2001", "gastro", 2);
     ajouter_consultation(&liste_patients, "Z", "01/01/2000", "fievre", 0);
+    ajouter_consultation(&liste_patients, "I", "01/01/2000", "bobo", 4);
     ajouter_consultation(&liste2, "K", "01/01/2000", "fievre", 0);
 
     /*afficher_fiche(&liste_patients, "H");
@@ -68,8 +69,8 @@ void test(){
     supprimer_patient(&liste_patients, "L");
     supprimer_patient(&liste_patients, "H");
     supprimer_patient(&liste_patients, "Z");
-    //afficher_patients(&liste_patients);
-    //afficher_fiche(&liste_patients, "K");
+    afficher_patients(&liste_patients);
+    afficher_fiche(&liste_patients, "I");
 
     /*supprimer_patient(&liste2, "E");
     inserer_patient(&liste2, "A", "Luc");
@@ -79,18 +80,18 @@ void test(){
 
 
     //Deuxieme test de MAJ
-    maj(&liste_patients, &liste3);
+    /*maj(&liste_patients, &liste3);
     afficher_patients(&liste3);
 
     afficher_fiche(&liste3, "K");
     ajouter_consultation(&liste_patients, "K", "01/01/2013", "accident", 3);
     maj(&liste_patients, &liste3);
     //afficher_fiche(&liste_patients, "K");
-    afficher_fiche(&liste3, "K");
+    afficher_fiche(&liste3, "K");*/
 }
 
 int main(){
-    //test();
-    interface();
+    test();
+    //interface();
     return 0;
 }

@@ -167,6 +167,7 @@ void ajouter_consultation(Parbre* abr, char* nm, char date[10], char* motif, int
 }
 
 
+
 Patient* rechercher_patient(Parbre* abr, char* nm) {
     Patient* ptr = *abr; // switch du type vers pointeur sur Patient (typedef Patient* Parbre;) Patient*->nom <=> Parbre->nom <=> *(Parbre*)->nom
     while (ptr != NULL) {
@@ -285,6 +286,7 @@ void supprimer_patient(Parbre* abr, char* nm) {
             strcpy(ptr->nom, succ->nom);
             strcpy(ptr->prenom, succ->prenom);
             ptr->ListeConsult = succ->ListeConsult;
+            succ->ListeConsult = NULL;
             ptr->nbrconsult = succ->nbrconsult;
 
             ptr = succ; // ptr pointe toujours vers le noeud a detruire en fin de boucle
@@ -380,7 +382,7 @@ void interface() {
 
     int continuer = 1, reponse, urgence; // variables utilisees pour stocker les informations saisies
     while (continuer) {
-        
+
         //affichage du menu et attente d'une reponse
         printf("Que voulez-vous faire ?\n1. Ajouter un patient\n2. Ajouter une consultation a un patient\n3. Afficher une fiche medicale\n4. Afficher la liste des patients\n5. Supprimer un patient\n6. Copier la liste des patients depuis la derniere sauvegarde\n7. Mettre a jour la sauvegarde de la liste des patients\n8. Quitter\n\n");
         scanf("%d", &reponse);
