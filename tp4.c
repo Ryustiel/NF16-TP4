@@ -102,7 +102,6 @@ int datecmp(char date1[10], char date2[10]) { // compare les caracteristiques de
 
     for (int i=0; i<8; i++) {
         result += (date1[indices[i]] - date2[indices[i]]) * rang;
-        printf("\n%d - %d (%d)", date1[indices[i]],  date2[indices[i]], rang);
         rang *= 10;
     }
 

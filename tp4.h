@@ -27,12 +27,12 @@ Patient* rechercher_patient(Parbre* abr, char nm[30]);
 void afficher_fiche(Parbre* abr, char nm[60]);
 void afficher_patients(Parbre* abr);
 Consultation* CreerConsult(char date[10], char motif[120], int nivu);
-int datecmp(char date1[10], char date2[10]);
 void ajouter_consultation(Parbre* abr, char nm[30], char date[10], char motif[120], int nivu);
 void supprimer_patient(Parbre* abr, char nm[30]);
 void maj(Parbre* abr, Parbre* abr2);
 
 void interface();
+
 void maj_consultations(Consultation* reference, Patient* patient_modifier);
 void supprimer_consultations(Patient* p);
 void free_all_patients(Patient* p);
