@@ -88,10 +88,16 @@ void test(){
     maj(&liste_patients, &liste3);
     //afficher_fiche(&liste_patients, "K");
     afficher_fiche(&liste3, "K");*/
+
+
+
+    //Test de free final
+    /*free_all_patients(liste_patients);
+    printf("bien free");*/
 }
 
 int main(){
-    test();
-    //interface();
+    //test();
+    interface();
     return 0;
 }
