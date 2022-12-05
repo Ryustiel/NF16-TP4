@@ -24,6 +24,7 @@ typedef Patient* Parbre;
 Patient* CreerPatient(char nm[30], char pr[30]);
 Consultation* CreerConsult(char date[10], char motif[120], int nivu);
 void inserer_patient(Parbre* abr, char nm[30], char pr[30]);
+int datecmp(char date1[10], char date2[10]);
 void ajouter_consultation(Parbre* abr, char nm[30], char date[10], char motif[120], int nivu);
 Patient* rechercher_patient(Parbre* abr, char nm[30]);
 void afficher_fiche(Parbre* abr, char nm[30]);
