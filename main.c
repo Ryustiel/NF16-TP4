@@ -117,7 +117,7 @@ void test(){
 }
 
 int main(){
-    test();
-    //interface();
+    //test();
+    interface();
     return 0;
 }
