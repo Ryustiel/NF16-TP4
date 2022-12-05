@@ -86,13 +86,6 @@ void inserer_patient(Parbre* abr, char nm[30], char pr[30]) {
 }
 
 
-/*
-// DEFINIR DATECMPR (lettre par lettre) 78-56-1234 (0 1 - 3 4 - 6 7 8 9)
-int consultcmp(char* date) { // returns an unique int proportional to the date for comparison
-    return date[1] + date[0]*10 + date[4]*100 + date[3]*1000 + date[9]*10000 + date[8]*100000 + date[7]*1000000 + date[6]*10000000; // utiliser la valeur du code ascii des characters pour le produit revient au meme car ils sont consecutifs dans la table
-}
-*/
-
 int datecmp(char date1[10], char date2[10]) { // compare les caracteristiques de nouvelle et relative consultation, et renvoie 1 si la nouvelle consultation devrait etre placee avant la relative (c'est a dire date inferieure, niveau d'urgence inferieur si date egale), 0 sinon
 
     // comparaison de date
