@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "tp4.c"
+#include "tp4.h"
 
 void test(){
     Parbre liste_patients = NULL;
@@ -33,7 +33,15 @@ void test(){
     printf("\n%d", datecmp("01/01/2000", "01/11/2000"));
     printf("\n%d", datecmp("01/01/2000", "02/01/2000"));
     printf("\n%d", datecmp("01/01/2000", "11/01/2000"));
-    printf("\n%d", datecmp("01/01/2000", "01/01/1999"));
+    printf("\n");
+    printf("\n%d", datecmp("01/01/2001", "01/01/2000"));
+    printf("\n%d", datecmp("01/01/2010", "01/01/2000"));
+    printf("\n%d", datecmp("01/01/2100", "01/01/2000"));
+    printf("\n%d", datecmp("01/01/3000", "01/01/2000"));
+    printf("\n%d", datecmp("01/02/2000", "01/01/2000"));
+    printf("\n%d", datecmp("01/11/2000", "01/01/2000"));
+    printf("\n%d", datecmp("02/01/2000", "01/01/2000"));
+    printf("\n%d", datecmp("11/01/2000", "01/01/2000"));
 
 
 
