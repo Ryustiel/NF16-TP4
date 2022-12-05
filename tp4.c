@@ -331,14 +331,12 @@ void maj_consultations(Consultation* reference, Patient* patient_modifier) {
     Consultation* modifier_ptr;
 
     if (reference != NULL) {
-        printf("IF");
         patient_modifier->ListeConsult = CreerConsult(ref_ptr->date, ref_ptr->motif, ref_ptr->niveauUrg);
         ref_ptr = ref_ptr->suivant;
         modifier_ptr = patient_modifier->ListeConsult;
     }
 
     while (ref_ptr != NULL) {
-        printf("WHILE");
         modifier_ptr->suivant = CreerConsult(ref_ptr->date, ref_ptr->motif, ref_ptr->niveauUrg);
         modifier_ptr = modifier_ptr->suivant;
         ref_ptr = ref_ptr->suivant;
