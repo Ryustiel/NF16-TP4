@@ -8,8 +8,12 @@ Patient* CreerPatient(char* nm, char* pr) {
     Patient* p = malloc(sizeof(Patient));
 
     // initialization des attributs
-    p->nom = nm;
-    p->prenom = pr;
+    p->nom = malloc(sizeof(char) * 30);
+    strcpy(p->nom, nm);
+
+    p->prenom = malloc(sizeof(char) * 30);
+    strcpy(p->prenom, pr);
+
     p->ListeConsult = NULL;
     p->nbrconsult = 0;
     p->fils_gauche = NULL;
@@ -24,8 +28,12 @@ Consultation* CreerConsult(char* date, char* motif, int nivu) {
     Consultation* c = malloc(sizeof(Consultation));
 
     // initialization des attributs
-    c->date = date;
-    c->motif =  motif;
+    c->date = malloc(sizeof(char) * 10);
+    strcpy(c->date, date);
+
+    c->motif = malloc(sizeof(char) * 120);
+    strcpy(c->motif, motif);
+
     c->niveauUrg = nivu;
     c->suivant = NULL;
 
@@ -98,29 +106,17 @@ int consultcmp(char* date) { // returns an unique int proportional to the date f
 }
 */
 
-int consultcmp(Consultation* relative, Consultation* nouvelle) { // compare les caracteristiques de nouvelle et relative consultation, et renvoie 1 si la nouvelle consultation devrait etre placee avant la relative (c'est a dire date inferieure, niveau d'urgence inferieur si date egale), 0 sinon
+int datecmp(char date1[10], char date2[10]) { // compare les caracteristiques de nouvelle et relative consultation, et renvoie 1 si la nouvelle consultation devrait etre placee avant la relative (c'est a dire date inferieure, niveau d'urgence inferieur si date egale), 0 sinon
 
     // comparaison de date
-    int indices[8] = {6, 7, 8, 9, 3, 4, 0, 1}; // composants de la date par ordre d'importance : JJ-MM-AAAA, 78-56-1234 (0 1 - 3 4 - 6 7 8 9)
+    int indices[8] = {1, 0, 4, 3, 9, 8, 7, 6}; // composants de la date par ordre d'importance : JJ-MM-AAAA, 78-56-1234 (0 1 - 3 4 - 6 7 8 9)
+    int result = 0;
+    int puissance = 1;
 
     for (int i; i<8; i++) {
-        if (relative->date[indices[i]] < nouvelle->date[indices[i]]) { // les valeurs ascii des char dans les dates sont comparables car les chiffres sont consecutifs dans la table
-            return 0; // le nouvel element est superieur au relatif, (composante de date superieur a celui de relative, et toutes les composantes plus importantes sonte egales)
-        }
-        else if (nouvelle->date[indices[i]] < relative->date[indices[i]]) {
-            return 1; // pareil qu'au dessus, mais nouvel element inferieur au relatif, donc doit etre place avant
-        }
-        // sinon, les composantes de date sont egales, poursuivre
+        result += (date1[indices[i]] - date2[indices[i]]) * puissance;
+        puissance *= 10;
     }
-
-    // comparaison de niveau
-    if (nouvelle->niveauUrg <= relative->niveauUrg) { // placer la nouvelle consultation apres l'ancienne si identiques (=) ou niveau d'urgence inferieure
-        return 0;
-    }
-    else {
-        return 1;
-    }
-
 
 }
 
@@ -141,29 +137,31 @@ void ajouter_consultation(Parbre* abr, char* nm, char* date, char* motif, int ni
 
             Consultation* ptr = p->ListeConsult;
             Consultation* ptr_prec;
-            Consultation* nouvelle = CreerConsult(date, motif, nivu);
-            int position_avant = consultcmp(p->ListeConsult, nouvelle); // position relative de la nouvelle consultation par rapport a celle passee en premier argument
 
-            if (position_avant) { // checking the root node
+            if (datecmp(date, ptr->date) > 0) { // checking the root node
                 // inserer en tant que tete de liste
-                p->ListeConsult = nouvelle;
+                p->ListeConsult = CreerConsult(date, motif, nivu);
                 p->ListeConsult->suivant = ptr;
             }
 
             else {
+                int comparison;
 
                 while (ptr != NULL) { // en fin de boucle ptr vaut soit un sous arbre de ptr_prec (disctingue par last_fils) soit ne change pas
-                position_avant = consultcmp(ptr, nouvelle);
-                ptr_prec = ptr;
+                    comparison = datecmp(nm, ptr->date);
+                    ptr_prec = ptr;
 
-                ptr = ptr->suivant;
-                if (position_avant) {
-                    break; // le ptr a une date superieure ou egale a la nouvelle : proceder a l'insertion sur le precedent
-                }
+                    if (comparison < 0) { // ptr->date < date
+                        ptr = ptr->suivant;
+                    }
+                    else { // ptr->date >= date
+                        break; // le ptr a une date superieure ou egale a la nouvelle date : proceder a l'insertion sur le precedent
+                    }
                 // sinon continuer (jusqu'a ptr suivant >= ou ptr = NULL (cas de l'insertion en fin de chaine)
+                }
             }
 
-            ptr_prec->suivant = nouvelle;
+            ptr_prec->suivant = CreerConsult(date, motif, nivu);
             ptr_prec->suivant->suivant = ptr; // chainage simple, pas besoin de definir un precedent
 
             }
@@ -217,6 +215,9 @@ void afficher_patients(Parbre* abr) {
 
 
 void free_patient(Patient* p) {
+    free(p->nom);
+    free(p->prenom);
+
     // suppression de l'attribut ListeConsult (liste chainee)
     supprimer_consultations(p);
 
@@ -284,8 +285,8 @@ void supprimer_patient(Parbre* abr, char* nm) {
             }
 
             // copie des attributs de succ non lies a la structure d'arbre dans le noeud a detacher (ptr->)
-            ptr->nom = succ->nom;
-            ptr->prenom = succ->prenom;
+            strcpy(ptr->nom, succ->nom);
+            strcpy(ptr->prenom, succ->prenom);
             ptr->ListeConsult = succ->ListeConsult;
             ptr->nbrconsult = succ->nbrconsult;
 
@@ -316,6 +317,8 @@ void supprimer_consultations(Patient* p) {
     while (ptrc != NULL) {
         temp = ptrc;
         ptrc = ptrc->suivant;
+        free(temp->date);
+        free(temp->motif);
         free(temp);
     }
 }
@@ -347,7 +350,6 @@ void maj_consultations(Consultation* reference, Patient* patient_modifier) {
 void maj(Parbre* abr, Parbre* abr2) {
     // le parcours le plus bete du monde : parcourir, modifier si different -- abr2 copie basiquement abr, c'est un ABR a la fin
 
-
     if (*abr == NULL) {
         free_all_patients(*abr2); // supprime le noeud superflu dans abr2
         *abr2 = NULL; // ce pointeur sur patient est desormais NULL
@@ -372,18 +374,18 @@ void maj(Parbre* abr, Parbre* abr2) {
 }
 
 
-
 void interface() {
     //allocation d'un espace pour la liste des matrices
     Parbre liste_patients = NULL;
     Parbre liste_backup = NULL;
 
-    int continuer = 1, reponse, urgence; // variables utilisees pour stocker les informations saisies
     char nom[30], prenom[30], date[10], motif[120];
+
+    int continuer = 1, reponse, urgence; // variables utilisees pour stocker les informations saisies
     while (continuer) {
+        
         //affichage du menu et attente d'une reponse
-        printf("Que voulez-vous faire ?\n1. Ajouter un patient\n2. Ajouter une consultation à un patient\n3. Afficher une fiche medicale\n4. Afficher la liste des patients\n5. Supprimer un patient\n6. Copier la liste des patients depuis la derniere sauvegarde\n7. Mettre a jour la sauvegarde de la liste des patients\n8. Quitter\n\n");
-        while(getchar() != '\n');
+        printf("Que voulez-vous faire ?\n1. Ajouter un patient\n2. Ajouter une consultation a un patient\n3. Afficher une fiche medicale\n4. Afficher la liste des patients\n5. Supprimer un patient\n6. Copier la liste des patients depuis la derniere sauvegarde\n7. Mettre a jour la sauvegarde de la liste des patients\n8. Quitter\n\n");
         scanf("%d", &reponse);
         printf("\n");
 
@@ -475,5 +477,7 @@ void interface() {
                 break;
             }
         }
+
+    while(getchar() != '\n');
     }
 }
