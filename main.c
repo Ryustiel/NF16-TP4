@@ -18,25 +18,27 @@ void test(){
 
 
     //Premier test de MAJ
+    /*
     maj(&liste_patients, &liste3);
     afficher_patients(&liste3);
-
+    */
 
 
     //Comparaison de dates
-    printf("%d", datecmp("01/01/2000", "01/01/2001"));
-    printf("%d", datecmp("01/01/2000", "01/01/2010"));
-    printf("%d", datecmp("01/01/2000", "01/01/2100"));
-    printf("%d", datecmp("01/01/2000", "01/01/3000"));
-    printf("%d", datecmp("01/01/2000", "01/02/2000"));
-    printf("%d", datecmp("01/01/2000", "01/11/2000"));
-    printf("%d", datecmp("01/01/2000", "02/01/2000"));
-    printf("%d", datecmp("01/01/2000", "11/01/2000"));
-    printf("%d", datecmp("01/01/2000", "01/01/1999"));
+    printf("\n%d", datecmp("01/01/2000", "01/01/2001"));
+    printf("\n%d", datecmp("01/01/2000", "01/01/2010"));
+    printf("\n%d", datecmp("01/01/2000", "01/01/2100"));
+    printf("\n%d", datecmp("01/01/2000", "01/01/3000"));
+    printf("\n%d", datecmp("01/01/2000", "01/02/2000"));
+    printf("\n%d", datecmp("01/01/2000", "01/11/2000"));
+    printf("\n%d", datecmp("01/01/2000", "02/01/2000"));
+    printf("\n%d", datecmp("01/01/2000", "11/01/2000"));
+    printf("\n%d", datecmp("01/01/2000", "01/01/1999"));
 
 
 
     //Recherche, ajouter consultation et fiche
+    /*
     ajouter_consultation(&liste_patients, "F", "01/01/2004", "vomissement", 2);
     ajouter_consultation(&liste_patients, "K", "01/01/2000", "fievre", 0);
     ajouter_consultation(&liste_patients, "K", "01/01/1999", "fievre", 0);
@@ -45,8 +47,10 @@ void test(){
     ajouter_consultation(&liste_patients, "Z", "01/01/2000", "fievre", 0);
     ajouter_consultation(&liste_patients, "I", "01/01/2000", "bobo", 4);
     ajouter_consultation(&liste2, "K", "01/01/2000", "fievre", 0);
+    */
 
-    /*afficher_fiche(&liste_patients, "H");
+    /*
+    afficher_fiche(&liste_patients, "H");
     afficher_fiche(&liste_patients, "B");
     afficher_fiche(&liste_patients, "F");
     afficher_fiche(&liste_patients, "K");
@@ -56,7 +60,8 @@ void test(){
     afficher_fiche(&liste_patients, "GA");
     afficher_fiche(&liste_patients, "EA");
     afficher_fiche(&liste_patients, "Z");
-    afficher_fiche(&liste2, "H");*/
+    afficher_fiche(&liste2, "H");
+    */
 
 
 
@@ -69,8 +74,10 @@ void test(){
     supprimer_patient(&liste_patients, "L");
     supprimer_patient(&liste_patients, "H");
     supprimer_patient(&liste_patients, "Z");
+    /*
     afficher_patients(&liste_patients);
     afficher_fiche(&liste_patients, "I");
+    */
 
     /*supprimer_patient(&liste2, "E");
     inserer_patient(&liste2, "A", "Luc");
@@ -80,6 +87,7 @@ void test(){
 
 
     //Deuxieme test de MAJ
+    /*
     maj(&liste_patients, &liste3);
     afficher_patients(&liste3);
 
@@ -88,12 +96,15 @@ void test(){
     maj(&liste_patients, &liste3);
     afficher_fiche(&liste_patients, "K");
     afficher_fiche(&liste3, "K");
+    */
 
 
 
     //Test de free final
-    /*free_all_patients(liste_patients);
-    printf("bien free");*/
+    /*
+    free_all_patients(liste_patients);
+    printf("bien free");
+    */
 }
 
 int main(){
